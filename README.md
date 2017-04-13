@@ -1,5 +1,5 @@
 
-# Flexix\ControllerConfigurationBundle installation description
+# Flexix\PrototypeControllerBundle installation description
 
 >by Mariusz Piela <mariusz.piela@tmsolution.pl>
 
