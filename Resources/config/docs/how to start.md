@@ -15,7 +15,7 @@ php app/console flexix:class-mapper:update-config-file
         some_bundle_name:
             some_entity:
                 alias: some-entity
-                entity_class: Ptah\To\Some\Entity
+                entity_class: Path\To\Some\Entity
             
 ```
 
