@@ -33,7 +33,38 @@ flexix_mapper:
                 - flexix_sample_entities
             path: address/of/your/app 
 ```
-3. Create configuration for your application in service.yml file of your Symfony bundle
+
+3.3 Add mapper.yml to config.yml
+```
+imports:
+   #...
+   - { resource: mapper.yml }
+```
+4. Cofnigure fos_rest bundle:
+```
+
+fos_rest: 
+
+    view:
+        formats:
+            json: true
+            xml: true
+        templating_formats:
+            html: true
+        force_redirects:
+            html: true
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: twig
+    access_denied_listener:
+        json: true    
+    format_listener:
+            rules:
+                - { path: '^/', priorities: { 'html', 'json', 'xml' }, prefer_extension: false }  
+
+```
+
+
+5. Create configuration for your application in service.yml file of your Symfony bundle
 
 ````
  parameters:    
@@ -55,7 +86,7 @@ flexix_mapper:
      
 ````
 
-4. Add configuration service
+6. Add configuration service
 
 ```
 services:
@@ -66,13 +97,13 @@ services:
                 - { name: flexix_prototype_controller.controller_configuration, applicationPath: 'address/of/your/app', entity_alias: 'some-entity' }       
 
 ```
-5. Add routing to app/routing.yml
+7. Add routing to app/routing.yml
 ```
 flexix_prototype_controller:
     resource: "@FlexixPrototypeControllerBundle/Resources/config/routing.yml"
     prefix:   /
 ```
-6. Yes, it's done, check your browswer!
+8. Yes, it's done, check your browswer!
 
 Check 
 ```
