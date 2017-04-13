@@ -36,7 +36,7 @@ php app/console flexix:class-mapper:update-config-file
 
 ````
  parameters:    
-    flexix_menu_menu_item.config: 
+    some_controller.config: 
         #for all actions
         base:
             allowed: true # you can put array with values xhttp or subrequest
@@ -75,7 +75,7 @@ php app/console flexix:class-mapper:update-config-file
                    action: list
                    method: GET
                 adapter: 'some.adapter.service'
-        #and so on ....        
+        #and so on ....       
 ````
 
 4. Add confiuguration service
