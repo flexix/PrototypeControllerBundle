@@ -66,8 +66,12 @@ services:
                 - { name: flexix_prototype_controller.controller_configuration, applicationPath: 'address/of/your/app', entity_alias: 'some-entity' }       
 
 ```
-
-
+5. Add routing to app/routing.yml
+```
+flexix_prototype_controller:
+    resource: "@FlexixPrototypeControllerBundle/Resources/config/routing.yml"
+    prefix:   /
+```
 5. Yes, it's done, check your browswer!
 
 Check 
