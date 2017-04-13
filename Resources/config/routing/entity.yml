@@ -1,0 +1,59 @@
+
+list:
+    path: "{applicationPath}/-/{entitiesPath}/list"
+    defaults: { _controller: "flexix_prototype_controller.entity_controller:listAction", "action": "list",   format: ~ }
+    requirements: {"applicationPath":".+" ,"entitiesPath": ".+" }
+    methods:  [GET, POST]
+    options:
+        expose: true 
+        
+        
+filter:
+    path: "{applicationPath}/-/{entitiesPath}/filter"
+    defaults: { _controller: "flexix_prototype_controller.entity_controller:filterAction", "action": "filter",   format: ~ }
+    requirements: {"applicationPath":".+" ,"entitiesPath": ".+" }
+    methods:  [GET, POST]
+    options:
+        expose: true    
+        
+typeahead:
+    path: "{applicationPath}/-/{entitiesPath}/typeahead/{field}"
+    defaults: { _controller: "flexix_prototype_controller.entity_controller:listAction", "action": "typeahead", format: ~ }
+    requirements: {"applicationPath":".+" ,"entitiesPath": ".+" }
+    methods:  [GET, POST]
+    options:
+        expose: true    
+        
+               
+new:
+    path: "{applicationPath}/-/{entitiesPath}/new"
+    defaults: { _controller: "flexix_prototype_controller.entity_controller:newAction", "action": "new",   format: ~ }
+    requirements: {"applicationPath":".+" ,"entitiesPath": ".+"}
+    methods:  [GET, POST]
+    options:
+        expose: true
+
+    
+
+delete:
+    path: "{applicationPath}/-/{entitiesPath}/delete/{id}"
+    defaults: { _controller: "flexix_prototype_controller.entity_controller:deleteAction", "action": "delete",    format: ~,id: '' }
+    requirements: {"applicationPath":".+" ,"entitiesPath": ".+", "action": "delete" }
+    methods:  [GET,DELETE]
+    options:
+        expose: true
+edit:
+    path: "{applicationPath}/-/{entitiesPath}/edit/{id}"
+    defaults: { _controller: "flexix_prototype_controller.entity_controller:editAction",  "action": "edit",   format: ~, id: '' }
+    requirements: {"applicationPath":".+" ,"entitiesPath": ".+"}
+    methods:  [GET, POST]
+    options:
+        expose: true          
+     
+get:
+    path: "{applicationPath}/-/{entitiesPath}/get/{id}"
+    defaults: { _controller: "flexix_prototype_controller.entity_controller:getAction","action": "get",   format: ~,id: '' }
+    requirements: {"applicationPath":".+" ,"entitiesPath": ".+"}
+    methods:  [GET, POST]
+    options:
+        expose: true

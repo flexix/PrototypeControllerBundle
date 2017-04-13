@@ -1,0 +1,49 @@
+services:
+    
+    flexix_prototype_controller.application_mapper:
+        class: Flexix\MapperBundle\Util\ApplicationMapper     
+        arguments: [%flexix_mapper.applications%]
+      
+    flexix_prototype_controller.entity_mapper: 
+        class: Flexix\MapperBundle\Util\EntityMapper
+        arguments: [%flexix_mapper.entities%]
+    
+    flexix_prototype_controller.request_analyzer:
+        class: Flexix\PathAnalyzerBundle\Util\PathAnalyzer
+        arguments: ['@flexix_prototype_controller.application_mapper', '@flexix_prototype_controller.entity_mapper']
+    
+    flexix_prototype_controller.base_configuration:
+        class: Flexix\ConfigurationBundle\Util\Configuration
+        arguments: [%flexix_prototype_controller.configuration%]
+    
+    flexix_prototype_controller.configuration_factory:
+        class: Flexix\ControllerConfigurationBundle\Util\ControllerConfigurationFactory
+        arguments: ['@flexix_prototype_controller.base_configuration','@flexix_prototype_controller.request_analyzer']
+
+   
+    flexix_prototype_controller.data_adapter:
+        class: Flexix\PrototypeControllerBundle\Util\DataAdapter
+   
+   
+    flexix_prototype_controller.entity_controller:
+        class: Flexix\PrototypeControllerBundle\Controller\EntityController
+        arguments: ['@service_container','@flexix_prototype_controller.configuration_factory','@request_stack','@flexix_prototype_controller.data_adapter']
+        
+        
+    flexix_prototype_controller.test_controller:
+        class: Flexix\PrototypeControllerBundle\Controller\TestController
+        arguments: ['@service_container','@flexix_prototype_controller.configuration_factory','@request_stack','@flexix_prototype_controller.data_adapter']    
+        
+    flexix_prototype_controller.test_controller:
+        class: Flexix\PrototypeControllerBundle\Controller\TestController
+        arguments: ['@service_container','@flexix_prototype_controller.configuration_factory']
+
+        
+    flexix_prototype_controller.ticket:
+        class: Flexix\PrototypeControllerBundle\Util\Ticket
+        arguments: []       
+        shared: false
+            
+ 
+            
+      
