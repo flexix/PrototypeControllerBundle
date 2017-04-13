@@ -122,36 +122,6 @@ public function registerBundles()
                 redirection:
                     route_name: filter
    
-   
- services:
-        flexix_menu.menu_item:
-            class: Flexix\ConfigurationBundle\Util\Configuration
-            arguments: [%flexix_menu_menu_item.config%]
-            tags:
-                - { name: flexix_prototype.controller_configuration, applicationPath: 'menu', entity_alias: 'menu-item' }
-        
-        flexix_menu.model:
-            class: Flexix\ModelBundle\Util\Model
-            arguments: ['@doctrine.orm.entity_manager']
-            
-            
-        flexix_menu.paginator:    
-            class: Flexix\MenuBundle\Model\Paginator
-            arguments: ['@knp_paginator',3 ]    
-       
-        flexix_menu.filter:
-            class: Flexix\MenuBundle\Model\Filter
-            arguments: ['@lexik_form_filter.query_builder_updater']
-        
-        flexix_menu.paginator_adapter:
-            class: Flexix\MenuBundle\Model\PaginatorAdapter
-            
-        flexix_menu.list_model:
-            class: Flexix\MenuBundle\Model\Model
-            arguments: ['@flexix_menu.model','@flexix_menu.filter','@flexix_menu.paginator' ]    
-            
-        flexix_menu.typeahead:
-            class: Flexix\MenuBundle\Model\Typeahead
-            arguments: ['@flexix_menu.model','@flexix_menu.filter',10,{ 'name': 'p.name' }]    
+      
 ```           
        
