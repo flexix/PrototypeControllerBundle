@@ -58,7 +58,7 @@ public function registerBundles()
         #for 'new' action
             new:
                templates:
-                    widget: 'some_templarte.html.twig'
+                    widget: 'some_template.html.twig'
                models:
                     create:
                         name: 'some.service.name'
@@ -74,7 +74,7 @@ public function registerBundles()
                         - xhttp
                         - subrequest
                 templates:
-                    widget: 'some_templarte.html.twig' 
+                    widget: 'some_template.html.twig' 
                 models:
                     list:
                         name: 'some.service.name'
