@@ -18,7 +18,7 @@ use \PHPUnit\Framework\TestCase;
 /**
  * 
  * php  app/phpunit.phar   --bootstrap=./app/autoload.php ./src/Flexix/PrototypeBundle/Tests/Util/ControllerDriverTest.php
- * @author Mariusz Piela <mariuszpiela@tmsolution.pl>,TomDyg
+ * @author Mariusz Piela <mariuszpiela@tmsolution.pl>,Tomasz Dyguda <tomasz.dyguda@gmail.com> 
  */
 class ControllerDriverTest extends TestCase {
 
