@@ -33,6 +33,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
+        new Flexix\MapperBundle\FlexixMapperBundle(),
         new Flexix\PrototypeControllerBundle\FlexixPrototypeControllerBundle()
     );
 }
