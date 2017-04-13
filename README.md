@@ -37,43 +37,43 @@ public function registerBundles()
  parameters:    
     flexix_menu_menu_item.config: 
         base:
-            allowed: true
+            allowed: true # you can put array with values xhttp or subrequest
             models:
                  get:
-                        name: 'flexix_menu.model'
-                        method: findOneById
+                        name: 'some.service.name'
+                        method: someMethod
    
         actions: 
             new:
                templates:
-                    widget: 'menuitem\new.html.twig'
+                    widget: 'some_templarte.html.twig'
                models:
                     create:
-                        name: 'flexix_menu.model'
-                        method: save
+                        name: 'some.service.name'
+                        method: someMethod
 
                         
                form: 
                    action: new 
-                   form_type: 'Flexix\MenuBundle\Form\MenuItemType'
+                   form_type: 'Some\FormTypeClass'
                redirection: 
-                    route_name: filter                                     
+                    route_name: filter #route name                                     
             list:
-                allowed: 
+                allowed: #only xhttp and subrequest possible
                         - xhttp
                         - subrequest
                 templates:
-                    widget: 'menuitem\list.html.twig' 
+                    widget: 'some_templarte.html.twig' 
                 models:
                     list:
-                        name: 'flexix_menu.list_model'
-                        method: find
+                        name: 'some.service.name'
+                        method: someMethod
                 form: 
-                   form_type: 'Flexix\MenuBundle\Form\SearchMenuItemType'
+                   form_type: 'Some\FormTypeClass'
                    action: list
                    method: GET
-                adapter: 'flexix_menu.paginator_adapter'
-                    
+                adapter: 'some.adapter.service'
+           #and so on ....         
             typeahead:
                 allowed: 
                         - xhttp
