@@ -19,6 +19,7 @@ To install the bundle, add:
 
 to your project's `composer.json` file. Later, enable your bundle in the app's kernel:
 
+
 ```
 <?php
 // app/AppKernel.php
@@ -32,6 +33,11 @@ public function registerBundles()
 }
 ```
 
+
+
+## Creating cofniguration for Controller
+
+1. Creaete Configuration
 ```
  parameters:    
     flexix_menu_menu_item.config: 
@@ -123,5 +129,20 @@ public function registerBundles()
                     route_name: filter
    
       
-```           
+``` 
+
+2. Create service
+
+```       
+services:
+        flexix_menu.menu_item:
+            class: Flexix\ConfigurationBundle\Util\Configuration
+            arguments: [%flexix_menu_menu_item.config%]
+            tags:
+                - { name: flexix_prototype_controller.controller_configuration, applicationPath: 'menu', entity_alias: 'menu-item' }       
+ ```      
+       
+       
+       
+       
        
