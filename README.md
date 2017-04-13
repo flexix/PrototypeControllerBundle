@@ -35,7 +35,7 @@ public function registerBundles()
 
 
 
-## Creating cofniguration for Controller
+### Creating configuration for Controller
 
 1. Creaete Configuration
 ```
