@@ -40,7 +40,7 @@ public function registerBundles()
 1. Creaete Configuration
 ```
  parameters:    
-    flexix_menu_menu_item.config: 
+    some_controller.config: 
         #for all actions
         base:
             allowed: true # you can put array with values xhttp or subrequest
@@ -135,11 +135,11 @@ public function registerBundles()
 
 ```       
 services:
-        flexix_menu.menu_item:
+        some_service_name:
             class: Flexix\ConfigurationBundle\Util\Configuration
-            arguments: [%flexix_menu_menu_item.config%]
+            arguments: [%some_controller.config%]
             tags:
-                - { name: flexix_prototype_controller.controller_configuration, applicationPath: 'menu', entity_alias: 'menu-item' }       
+                - { name: flexix_prototype_controller.controller_configuration, applicationPath: 'some/path', entity_alias: 'entity-alias' }       
  ```      
        
        
