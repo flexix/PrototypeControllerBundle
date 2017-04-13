@@ -4,7 +4,7 @@
 # Sorry, it's not complete yet! 
 # We are still working on it! (so hard :))
 
-# Flexix\PrototypeControllerBundle installation description
+# Flexix\PrototypeControllerBundle
 
 >by Mariusz Piela <mariusz.piela@tmsolution.pl>
 
