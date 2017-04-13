@@ -40,7 +40,7 @@ imports:
    #...
    - { resource: mapper.yml }
 ```
-4. Cofnigure fos_rest bundle:
+4. Configure fos_rest bundle:
 ```
 
 fos_rest: 
