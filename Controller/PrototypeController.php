@@ -12,7 +12,7 @@ use Flexix\PrototypeControllerBundle\Util\ControllerDriver;
 use FOS\RestBundle\Controller\FOSRestController;
 
 /**
- * Entity controller.
+ * Prototype controller.
  * 
  */
 class PrototypeController extends FOSRestController {
