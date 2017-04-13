@@ -11,11 +11,17 @@ php app/console flexix:class-mapper:update-config-file
 
  3.1. You should see something like this:
 ```
+flexix_mapper:
+    applications: {  }
     entities:
-        some_bundle_name:
-            some_entity:
-                alias: some-entity
-                entity_class: Path\To\Some\Entity
+        flexix_sample_entities:
+            discount:
+                alias: discount
+                entity_class: Flexix\SampleEntitiesBundle\Entity\Discount
+            measure_unit:
+                alias: measure-unit
+                entity_class: Flexix\SampleEntitiesBundle\Entity\MeasureUnit
+           #...
             
 ```
 
