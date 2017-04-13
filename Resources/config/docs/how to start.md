@@ -25,7 +25,7 @@ php app/console flexix:class-mapper:update-config-file
         admin:
             bundles:
                 - flexix_sample_entities
-            address: adress/of/your/app #@todo
+            address: address/of/your/app #@todo
 ```
 3. Create configuration for your application in service.yml file of your Symfony bundle
 
@@ -57,7 +57,7 @@ services:
             class: Flexix\ConfigurationBundle\Util\Configuration
             arguments: [%some_controller.config%]
             tags:
-                - { name: flexix_prototype_controller.controller_configuration, applicationPath: 'adress/of/your/app', entity_alias: 'some-entity' }       
+                - { name: flexix_prototype_controller.controller_configuration, applicationPath: 'address/of/your/app', entity_alias: 'some-entity' }       
 
 ```
 
