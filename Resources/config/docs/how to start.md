@@ -12,16 +12,11 @@ php app/console flexix:class-mapper:update-config-file
  3.1. You should see something like this:
 ```
     entities:
-        flexix_sample_entities:
-            discount:
-                alias: discount
-                entity_class: Flexix\SampleEntitiesBundle\Entity\Discount
-            measure_unit:
-                alias: measure-unit
-                entity_class: Flexix\SampleEntitiesBundle\Entity\MeasureUnit
-            payment_frequency:
-                alias: payment-frequency
-                entity_class: Flexix\SampleEntitiesBundle\Entity\PaymentFrequency
+        some_bundle_name:
+            some_entity:
+                alias: some-entity
+                entity_class: Ptah\To\Some\Entity
+            
 ```
 
  3.2. Add your application name to mapper.yml
@@ -37,14 +32,6 @@ php app/console flexix:class-mapper:update-config-file
 ````
  parameters:    
     some_controller.config: 
-        #for all actions
-        base:
-            allowed: true # you can put array with values xhttp or subrequest
-            models:
-                 get:
-                        name: 'some.service.name'
-                        method: someMethod
-   
         actions: 
         #for 'new' action
             new:
@@ -59,26 +46,26 @@ php app/console flexix:class-mapper:update-config-file
                    form_type: 'Some\FormTypeClass'
                redirection: 
                     route_name: filter #route name
-        #for 'list' action            
-            list:
-                allowed: #only xhttp and subrequest possible
-                        - xhttp
-                        - subrequest
-                templates:
-                    widget: 'some_templarte.html.twig' 
-                models:
-                    list:
-                        name: 'some.service.name'
-                        method: someMethod
-                form: 
-                   form_type: 'Some\FormTypeClass'
-                   action: list
-                   method: GET
-                adapter: 'some.adapter.service'
-        #and so on ....       
+     
 ````
 
 4. Add confiuguration service
 
+```
+ervices:
+        some_service_name:
+            class: Flexix\ConfigurationBundle\Util\Configuration
+            arguments: [%some_controller.config%]
+            tags:
+                - { name: flexix_prototype_controller.controller_configuration, applicationPath: 'adress/of/your/app', entity_alias: 'some-entity' }       
+
+```
+
 
 5. Yes, it's done, check your browswer!
+
+Check 
+```
+   your_project/adress/of/your/app/-/some-entity/new
+```
+
