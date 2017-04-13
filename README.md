@@ -33,7 +33,7 @@ public function registerBundles()
 
 
 
-```
+```yaml
  parameters:    
     flexix_menu_menu_item.config: 
         #for all actions
