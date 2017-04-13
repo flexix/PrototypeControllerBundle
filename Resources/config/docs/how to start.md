@@ -9,7 +9,7 @@ php app/console flexix:class-mapper:update-config-file
 ```
 3. Create new App in application section on mapper.yml file
 
-3.1 You should see something like this:
+ 3.1. You should see something like this:
 ```
     entities:
         flexix_sample_entities:
@@ -24,7 +24,7 @@ php app/console flexix:class-mapper:update-config-file
                 entity_class: Flexix\SampleEntitiesBundle\Entity\PaymentFrequency
 ```
 
-3.2 Add your application name to mapper.yml
+ 3.2. Add your application name to mapper.yml
 ```
     applications:
         admin:
