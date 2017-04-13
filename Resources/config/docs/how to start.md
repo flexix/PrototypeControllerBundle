@@ -108,4 +108,4 @@ Check
 ```
    your_project/app_dev.php/adress/of/your/app/-/some-entity/new/
 ```
-
+You shuould see AccessDenied Exception. Its Great, you are on right way!
