@@ -70,6 +70,7 @@ fos_rest:
         actions: 
         #for 'new' action
             new:
+               allowed: true
                templates:
                     widget: 'some_template.html.twig'
                services:#@todo
