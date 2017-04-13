@@ -19,13 +19,13 @@ php app/console flexix:class-mapper:update-config-file
             
 ```
 
- 3.2. Add your application name to mapper.yml
+ 3.2. Add your routes name to mapper.yml
 ```
-    applications:
+    routes:#@todo
         admin:
             bundles:
                 - flexix_sample_entities
-            name: adress/of/your/app
+            address: adress/of/your/app #@todo
 ```
 3. Create configuration for your application in service.yml file of your Symfony bundle
 
@@ -37,7 +37,7 @@ php app/console flexix:class-mapper:update-config-file
             new:
                templates:
                     widget: 'some_templarte.html.twig'
-               models:
+               services:#@todo
                     create:
                         name: 'some.service.name'
                         method: someMethod
@@ -52,7 +52,7 @@ php app/console flexix:class-mapper:update-config-file
 4. Add configuration service
 
 ```
-ervices:
+services:
         some_service_name:
             class: Flexix\ConfigurationBundle\Util\Configuration
             arguments: [%some_controller.config%]
