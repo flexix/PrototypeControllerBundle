@@ -21,7 +21,7 @@ php app/console flexix:class-mapper:update-config-file
 
  3.2. Add your routes name to mapper.yml
 ```
-    routes:#@todo
+    applications:
         admin:
             bundles:
                 - flexix_sample_entities
