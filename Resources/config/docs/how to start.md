@@ -1,4 +1,4 @@
-# How to Start
+# How to start
 1. Generate map of your Entities
  ```
 php app/console flexix:class-mapper:update-config-file
