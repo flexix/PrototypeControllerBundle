@@ -17,9 +17,13 @@ class ControllerDriver implements ControllerDriverInterface {
         return $this->configuration->getAction();
     }
 
-    
     public function getActionAllowed() {
-        return $this->configuration->get('allowed');
+
+        if ($this->configuration->has('allowed')) {
+            return $this->configuration->get('allowed');
+        } else {
+            return false;
+        }
     }
 
     public function getEntityId() {
@@ -27,8 +31,6 @@ class ControllerDriver implements ControllerDriverInterface {
         return $this->configuration->get('path_analyze.entity_id');
     }
 
-    
-    
     public function getEntityClass() {
 
         return $this->configuration->get('path_analyze.entity_class');
@@ -218,9 +220,8 @@ class ControllerDriver implements ControllerDriverInterface {
             return false;
         }
     }
-    
-    public function getAdapter()
-    {
+
+    public function getAdapter() {
         if ($this->configuration->has('adapter')) {
             return $this->configuration->get('adapter');
         } else {
