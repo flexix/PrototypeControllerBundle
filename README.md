@@ -34,7 +34,7 @@ public function registerBundles()
 
 
 ```
-parameters:    
+ parameters:    
     flexix_menu_menu_item.config: 
         base:
             allowed: true
@@ -123,7 +123,7 @@ parameters:
                     route_name: filter
    
    
-services:
+ services:
         flexix_menu.menu_item:
             class: Flexix\ConfigurationBundle\Util\Configuration
             arguments: [%flexix_menu_menu_item.config%]
