@@ -31,7 +31,7 @@ flexix_mapper:
         admin:
             bundles:
                 - flexix_sample_entities
-            address: address/of/your/app #@todo
+            path: address/of/your/app 
 ```
 3. Create configuration for your application in service.yml file of your Symfony bundle
 
