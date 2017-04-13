@@ -42,7 +42,7 @@ flexix_mapper:
         #for 'new' action
             new:
                templates:
-                    widget: 'some_templarte.html.twig'
+                    widget: 'some_template.html.twig'
                services:#@todo
                     create:
                         name: 'some.service.name'
