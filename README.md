@@ -33,7 +33,7 @@ public function registerBundles()
 
 
 
-```
+```yaml
 parameters:    
     flexix_menu_menu_item.config: 
         base:
@@ -154,3 +154,4 @@ services:
             class: Flexix\MenuBundle\Model\Typeahead
             arguments: ['@flexix_menu.model','@flexix_menu.filter',10,{ 'name': 'p.name' }]    
            
+       
