@@ -1,7 +1,8 @@
 
 
 
-# Sorry, it's not complete yet!
+# Sorry, it's not complete yet! 
+# We are still working on it (So hard)
 
 # Flexix\PrototypeControllerBundle installation description
 
