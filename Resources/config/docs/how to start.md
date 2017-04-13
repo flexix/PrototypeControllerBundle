@@ -31,7 +31,7 @@ flexix_mapper:
         admin:
             bundles:
                 - flexix_sample_entities
-            path: address/of/your/app 
+            path: sample_sufix_of_your_application
 ```
 
 3.3 Add mapper.yml to config.yml
@@ -93,7 +93,7 @@ services:
             class: Flexix\ConfigurationBundle\Util\Configuration
             arguments: [%some_controller.config%]
             tags:
-                - { name: flexix_prototype_controller.controller_configuration, applicationPath: 'address/of/your/app', entity_alias: 'some-entity' }       
+                - { name: flexix_prototype_controller.controller_configuration, applicationPath: 'sample_sufix_of_your_application', entity_alias: 'some-entity' }       
 
 ```
 7. Add routing to app/routing.yml
