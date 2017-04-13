@@ -76,6 +76,6 @@ flexix_prototype_controller:
 
 Check 
 ```
-   your_project/adress/of/your/app/-/some-entity/new
+   your_project/app_dev.php/adress/of/your/app/-/some-entity/new/
 ```
 
