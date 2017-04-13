@@ -72,7 +72,7 @@ flexix_prototype_controller:
     resource: "@FlexixPrototypeControllerBundle/Resources/config/routing.yml"
     prefix:   /
 ```
-5. Yes, it's done, check your browswer!
+6. Yes, it's done, check your browswer!
 
 Check 
 ```
