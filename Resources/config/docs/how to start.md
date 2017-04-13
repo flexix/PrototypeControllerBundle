@@ -42,9 +42,7 @@ imports:
 ```
 4. Configure fos_rest bundle:
 ```
-
 fos_rest: 
-
     view:
         formats:
             json: true
@@ -59,7 +57,7 @@ fos_rest:
         json: true    
     format_listener:
             rules:
-                - { path: '^/', priorities: { 'html', 'json', 'xml' }, prefer_extension: false }  
+                - { path: '^/', priorities: [ 'html', 'json', 'xml' ], prefer_extension: false }  
 
 ```
 
