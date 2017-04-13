@@ -48,7 +48,7 @@ class ControllerDriver implements ControllerDriverInterface {
 
     public function returnResultToView($modelName) {
 
-        $returnToViewParameter = sprintf('models.%s.return_result_to_view', $modelName);
+        $returnToViewParameter = sprintf('services.%s.return_result_to_view', $modelName);
 
         if ($this->configuration->has($returnToViewParameter)) {
             return $this->configuration->get($returnToViewParameter);
@@ -59,7 +59,7 @@ class ControllerDriver implements ControllerDriverInterface {
 
     public function getResultParameter($modelName) {
 
-        $resultParameter = sprintf('models.%s.result_parameter', $modelName);
+        $resultParameter = sprintf('services.%s.result_parameter', $modelName);
         if ($this->configuration->has($resultParameter)) {
             return $this->configuration->get($resultParameter);
         } else {
@@ -102,20 +102,20 @@ class ControllerDriver implements ControllerDriverInterface {
         }
     }
 
-    public function getModel($name) {
+    public function getService($name) {
 
-        $modelName = sprintf('models.%s', $name);
+        $modelName = sprintf('services.%s', $name);
 
         if ($this->configuration->has('models')) {
 
             $model = $this->configuration->get($modelName);
 
             if (!array_key_exists('name', $model)) {
-                throw new \Exception('Model must have defined name in configuration');
+                throw new \Exception('Service must have defined name in configuration');
             }
 
             if (!array_key_exists('method', $model)) {
-                throw new \Exception('Model must have defined method in configuration');
+                throw new \Exception('Service must have defined method in configuration');
             }
 
             if (!array_key_exists('type', $model)) {
@@ -126,29 +126,29 @@ class ControllerDriver implements ControllerDriverInterface {
             return $model;
         } else {
 
-            throw new \Exception('Model %s doesn\'t exists in configuration');
+            throw new \Exception('Service %s doesn\'t exists in configuration');
         }
     }
 
-    public function hasModelDataParameter($name) {
+    public function hasServiceDataParameter($name) {
 
-        $dataParameterPath = sprintf('models.%s.data_parameter', $name);
+        $dataParameterPath = sprintf('services.%s.data_parameter', $name);
 
         if ($this->configuration->has($dataParameterPath)) {
             return true;
         }
     }
 
-    public function getModelDataParameter($name) {
+    public function getServiceDataParameter($name) {
 
-        $dataParameterPath = sprintf('models.%s.data_parameter', $name);
+        $dataParameterPath = sprintf('services.%s.data_parameter', $name);
 
         return $this->configuration->get($dataParameterPath);
     }
 
-    public function hasModel($name) {
+    public function hasService($name) {
 
-        $modelName = sprintf('models.%s', $name);
+        $modelName = sprintf('services.%s', $name);
 
         if ($this->configuration->has($modelName)) {
             return true;

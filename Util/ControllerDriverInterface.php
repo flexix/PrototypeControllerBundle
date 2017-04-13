@@ -24,9 +24,9 @@ interface ControllerDriverInterface {
     
     public function getRedirectionRouteParameters();
     
-    public function getModel($name);
+    public function getService($name);
     
-    public function hasModel($name);
+    public function hasService($name);
 
     public function getFormTypeClass();
     

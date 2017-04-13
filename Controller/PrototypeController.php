@@ -47,7 +47,7 @@ class PrototypeController extends FOSRestController {
         return $this->configurationFactory->createConfiguration( new ControllerConfiguration(), $action,$applicationPath,$entitiesPath,$id);
     }
 
-    protected function getModelObject($model) {
+    protected function getServiceObject($model) {
 
         if ($model['type'] == 'class') {
             $className = $model['name'];
@@ -59,20 +59,20 @@ class PrototypeController extends FOSRestController {
         return $object;
     }
 
-    protected function invokeModelMethod($driver, $modelName, $arguments = [], $optional = false) {
+    protected function invokeServiceMethod($driver, $modelName, $arguments = [], $optional = false) {
 
 
-        if ($driver->hasModel($modelName)) {
+        if ($driver->hasService($modelName)) {
 
-            $model = $driver->getModel($modelName);
+            $model = $driver->getService($modelName);
             if ($model) {
-                $object = $this->getModelObject($model);
+                $object = $this->getServiceObject($model);
                 $arguments[] = $driver;
                 return call_user_func_array(array($object, $model['method']), $arguments);
             }
         } else {
             if (!$optional) {
-                throw new \Exception(sprintf("Model: \"%s\" doesn\'t exists", $modelName));
+                throw new \Exception(sprintf("Service: \"%s\" doesn\'t exists", $modelName));
             }
         }
     }
@@ -126,13 +126,13 @@ class PrototypeController extends FOSRestController {
     }
 
     protected function getDataParameter($driver, $model) {
-        if ($driver->hasModelDataParameter($model)) {
-            return $driver->getModelDataParameter($model);
+        if ($driver->hasServiceDataParameter($model)) {
+            return $driver->getServiceDataParameter($model);
         }
     }
 
     protected function addResultToData($driver, $modelName, &$data, $result, $required = false, $dataParameter = null) {
-        if ($driver->hasModel($modelName)) {
+        if ($driver->hasService($modelName)) {
             $resultParameter = $driver->getResultParameter($modelName);
             if ($resultParameter) {
 
@@ -147,7 +147,7 @@ class PrototypeController extends FOSRestController {
             } else {
 
                 if ($required) {
-                    throw new \Exception('Model "%s" must result parameter. Set paremter name in config - result_parameter', $modelName);
+                    throw new \Exception('Service "%s" must result parameter. Set paremter name in config - result_parameter', $modelName);
                 }
             }
         }
