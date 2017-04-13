@@ -49,7 +49,7 @@ php app/console flexix:class-mapper:update-config-file
      
 ````
 
-4. Add confiuguration service
+4. Add configuration service
 
 ```
 ervices:
