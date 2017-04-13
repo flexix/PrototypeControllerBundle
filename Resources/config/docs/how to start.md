@@ -1,4 +1,4 @@
-#How to Sart
+# How to Start
 1. Generate Map of your Entities
  ```
 php app/console flexix:class-mapper:update-config-file
