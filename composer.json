@@ -19,7 +19,7 @@
     "require": {
         "php": "7.*",
         "symfony/framework-bundle": "3.*",
-        "flexix/mapper-bundle": "dev-master"
+        "flexix/mapper-bundle": "dev-master",
         "flexix/controller-configuration-bundle": "dev-master"
     },
     "require-dev": { 
