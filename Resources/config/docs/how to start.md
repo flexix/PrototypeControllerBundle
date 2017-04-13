@@ -27,7 +27,7 @@ php app/console flexix:class-mapper:update-config-file
                 - flexix_sample_entities
             name: adress/of/your/app
 ```
-3. Create configuration for your Controller in service.yml file of your Symfony bundle
+3. Create configuration for your application in service.yml file of your Symfony bundle
 
 ````
  parameters:    
