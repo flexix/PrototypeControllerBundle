@@ -30,10 +30,9 @@ public function registerBundles()
         new Flexix\PrototypeControllerBundle\FlexixPrototypeControllerBundle()
     );
 }
+```
 
-
-
-```yaml
+```
  parameters:    
     flexix_menu_menu_item.config: 
         #for all actions
