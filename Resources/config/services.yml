@@ -29,16 +29,6 @@ services:
         class: Flexix\PrototypeControllerBundle\Controller\EntityController
         arguments: ['@service_container','@flexix_prototype_controller.configuration_factory','@request_stack','@flexix_prototype_controller.data_adapter']
         
-        
-    flexix_prototype_controller.test_controller:
-        class: Flexix\PrototypeControllerBundle\Controller\TestController
-        arguments: ['@service_container','@flexix_prototype_controller.configuration_factory','@request_stack','@flexix_prototype_controller.data_adapter']    
-        
-    flexix_prototype_controller.test_controller:
-        class: Flexix\PrototypeControllerBundle\Controller\TestController
-        arguments: ['@service_container','@flexix_prototype_controller.configuration_factory']
-
-        
     flexix_prototype_controller.ticket:
         class: Flexix\PrototypeControllerBundle\Util\Ticket
         arguments: []       
