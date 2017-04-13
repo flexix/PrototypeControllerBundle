@@ -36,6 +36,7 @@ public function registerBundles()
 ```
  parameters:    
     flexix_menu_menu_item.config: 
+        #for all actions
         base:
             allowed: true # you can put array with values xhttp or subrequest
             models:
@@ -44,6 +45,7 @@ public function registerBundles()
                         method: someMethod
    
         actions: 
+        #for 'new' action
             new:
                templates:
                     widget: 'some_templarte.html.twig'
@@ -51,13 +53,12 @@ public function registerBundles()
                     create:
                         name: 'some.service.name'
                         method: someMethod
-
-                        
                form: 
                    action: new 
                    form_type: 'Some\FormTypeClass'
                redirection: 
-                    route_name: filter #route name                                     
+                    route_name: filter #route name
+        #for 'list' action            
             list:
                 allowed: #only xhttp and subrequest possible
                         - xhttp
@@ -73,7 +74,7 @@ public function registerBundles()
                    action: list
                    method: GET
                 adapter: 'some.adapter.service'
-           #and so on ....         
+        #and so on ....         
             typeahead:
                 allowed: 
                         - xhttp
