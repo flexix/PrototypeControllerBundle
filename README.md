@@ -79,56 +79,7 @@ public function registerBundles()
                    action: list
                    method: GET
                 adapter: 'some.adapter.service'
-        #and so on ....         
-            typeahead:
-                allowed: 
-                        - xhttp
-                templates:
-                    widget: 'blank.html.twig' 
-                models:
-                    list:
-                        name: 'flexix_menu.typeahead'
-                        method: find
-  
-     
-                form: 
-                   form_type: 'Flexix\MenuBundle\Form\SearchMenuItemType'
-                   action: list
-                   method: GET                                  
-            filter:
-                templates:
-                    widget: 'menuitem\filter.html.twig' 
-     
-                form: 
-                   form_type: 'Flexix\MenuBundle\Form\SearchMenuItemType'
-                   method: GET
-                   action: test   
-            get:
-                templates:
-                    widget: 'menuitem\show.html.twig'
-                template_var: menuItem    
-            edit:
-                templates:
-                    widget: 'menuitem\edit.html.twig' 
-                form: 
-                   form_type: 'Flexix\MenuBundle\Form\MenuItemType' 
-                   action: edit
-                models:
-                    update:
-                        name: 'flexix_menu.model'
-                        method: update
-                        result_parameter: menuItem
-                redirection:
-                    route_name: filter       
-            delete:
-                models:
-                    delete:
-                        name: 'flexix_menu.model'
-                        method: delete
-                redirection:
-                    route_name: filter
-   
-      
+        #and so on ....          
 ``` 
 
 2. Create service
