@@ -93,7 +93,7 @@ services:
             class: Flexix\ConfigurationBundle\Util\Configuration
             arguments: [%some_controller.config%]
             tags:
-                - { name: flexix_prototype_controller.controller_configuration, applicationPath: 'sample_sufix_of_your_application', entity_alias: 'some-entity' }       
+                - { name: flexix_prototype_controller.controller_configuration, applicationPath: 'sample_sufix_of_your_application', entityAlias: 'some-entity' }       
 
 ```
 7. Add routing to app/routing.yml
