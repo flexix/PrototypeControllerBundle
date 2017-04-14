@@ -51,13 +51,13 @@ class EntityController extends PrototypeController {
         $adapter->setObject($entity);
         $this->denyAccessUnlessGranted(self::_LIST, $this->getSecurityTicket($driver, $adapter->getData()));
         $form = $this->createForm($this->getFormTypeClass($driver), $entity, ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver)]);
-        $result = $this->invokeModelMethod($driver, self::_LIST, [$entity], true);
+        $result = $this->invokeModelMethod($driver, self::_LIST, [$entity, $request], true);
         $form->handleRequest($request);
         $view = $this->view($adapter->getData(), 200)
                 ->setTemplateVar($this->getTemplateVar($driver))
                 ->setTemplateData($adapter->getTemplateData([
-                            'driver' => $driver,
                             'form' => $form->createView(),
+                            'driver' => $driver,
                             'is_xml_http_request' => $request->isXmlHttpRequest(),
                             'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
                 ]))
@@ -92,8 +92,8 @@ class EntityController extends PrototypeController {
         $view = $this->view($adapter->getData(), 200)
                 ->setTemplateVar($this->getTemplateVar($driver))
                 ->setTemplateData($adapter->getTemplateData([
-                            'driver' => $driver,
                             'form' => $form->createView(),
+                            'driver' => $driver,
                             'is_xml_http_request' => $request->isXmlHttpRequest(),
                             'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
                 ]))
@@ -120,7 +120,6 @@ class EntityController extends PrototypeController {
                 ->setTemplateVar($this->getTemplateVar($driver))
                 ->setTemplateData($adapter->getTemplateData([
                             'driver' => $driver,
-                            'delete_form' => $deleteForm->createView(),
                             'is_xml_http_request' => $request->isXmlHttpRequest(),
                             'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
                 ]))
@@ -160,8 +159,8 @@ class EntityController extends PrototypeController {
         $view = $this->view($adapter->getData(), 200)
                 ->setTemplateVar($this->getTemplateVar($driver))
                 ->setTemplateData($adapter->getTemplateData([
-                            'driver' => $driver,
                             'form' => $form->createView(),
+                            'driver' => $driver,
                             'is_xml_http_request' => $request->isXmlHttpRequest(),
                             'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
                 ]))

@@ -40,8 +40,6 @@ class ConfigurationPass implements CompilerPassInterface {
 
     protected function addServices($id, $tags, $definition) {
 
-
-
         foreach ($tags as $attributes) {
 
             if (!array_key_exists(self::MODULE, $attributes)) {
@@ -62,7 +60,7 @@ class ConfigurationPass implements CompilerPassInterface {
 
             $definition->addMethodCall(self::METHOD_NAME, array(
                 new Reference($id),
-                $attributes[self::MODULE], $attributes[self::ALIAS],$attributes[self::ACTION]
+                $attributes[self::ACTION], $attributes[self::ALIAS],$attributes[self::MODULE]
             ));
         }
     }

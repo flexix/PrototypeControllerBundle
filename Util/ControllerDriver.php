@@ -9,6 +9,8 @@ class ControllerDriver implements ControllerDriverInterface {
 
     protected $configuration;
 
+    const PATH='path';    
+    
     public function __construct(ConfigurationInterface $configuration) {
         $this->configuration = $configuration;
     }
@@ -28,22 +30,22 @@ class ControllerDriver implements ControllerDriverInterface {
 
     public function getEntityId() {
 
-        return $this->configuration->get('path_analyze.entity_id');
+        return $this->configuration->get(sprintf('%s.%s',self::PATH,'entity_id'));
     }
 
     public function getEntityClass() {
 
-        return $this->configuration->get('path_analyze.entity_class');
+        return $this->configuration->get(sprintf('%s.%s',self::PATH,'entity_class'));
     }
 
     public function getModule() {
 
-        return $this->configuration->get('path_analyze.module');
+        return $this->configuration->get(sprintf('%s.%s',self::PATH,'module'));
     }
 
     public function getAlias() {
 
-        return $this->configuration->get('path_analyze.alias');
+        return $this->configuration->get(sprintf('%s.%s',self::PATH,'alias'));
     }
     
   
