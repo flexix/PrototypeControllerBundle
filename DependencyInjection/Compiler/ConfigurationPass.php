@@ -11,8 +11,9 @@ class ConfigurationPass implements CompilerPassInterface {
     const SERVICE_NAME = 'flexix_prototype_controller.configuration_factory';
     const METHOD_NAME = 'addConfiguration';
     const TAG_ID = 'flexix_prototype_controller.controller_configuration';
-    const applicationPath = 'applicationPath';
-    const ENTITY_ALIAS = 'entity_alias';
+    const MODULE = 'module';
+    const ALIAS = 'alias';
+    const ACTION = 'action';
 
     public function process(ContainerBuilder $container) {
 
@@ -43,18 +44,25 @@ class ConfigurationPass implements CompilerPassInterface {
 
         foreach ($tags as $attributes) {
 
-            if (!array_key_exists(self::applicationPath, $attributes)) {
+            if (!array_key_exists(self::MODULE, $attributes)) {
 
-                throw new \Exception(sprintf('There is no "%s" parameter for "%s" named service', self::applicationPath, $id));
+                $attributes[self::MODULE]=null;
             }
-            if (!array_key_exists(self::ENTITY_ALIAS, $attributes)) {
+            
+            if (!array_key_exists(self::ALIAS, $attributes)) {
 
-                throw new \Exception(sprintf('There is no "%s" parameter for "%s" named service', self::ENTITY_ALIAS, $id));
+                throw new \Exception(sprintf('There is no "%s" parameter for "%s" named service', self::ALIAS, $id));
+            }           
+            
+            if (!array_key_exists(self::ACTION, $attributes)) {
+
+                throw new \Exception(sprintf('There is no "%s" parameter for "%s" named service', self::ACTION, $id));
             }
+            
 
             $definition->addMethodCall(self::METHOD_NAME, array(
                 new Reference($id),
-                $attributes[self::applicationPath], $attributes[self::ENTITY_ALIAS]
+                $attributes[self::MODULE], $attributes[self::ALIAS],$attributes[self::ACTION]
             ));
         }
     }

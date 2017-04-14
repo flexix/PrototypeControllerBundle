@@ -36,16 +36,17 @@ class ControllerDriver implements ControllerDriverInterface {
         return $this->configuration->get('path_analyze.entity_class');
     }
 
-    public function getApplicationPath() {
+    public function getModule() {
 
-        return $this->configuration->get('path_analyze.applicationPath');
+        return $this->configuration->get('path_analyze.module');
     }
 
-    public function getEntitiesPath() {
+    public function getAlias() {
 
-        return $this->configuration->get('path_analyze.entitiesPath');
+        return $this->configuration->get('path_analyze.alias');
     }
-
+    
+  
     public function returnResultToView($modelName) {
 
         $returnToViewParameter = sprintf('services.%s.return_result_to_view', $modelName);

@@ -24,8 +24,8 @@ class PrototypeController extends FOSRestController {
     const _EDIT = 'edit';
     const _UPDATE = 'update';
     const _DELETE = 'delete';
-    const APPLICATION_PATH = 'applicationPath';
-    const ENTITIES_PATH = 'entitiesPath';
+    const MODULE = 'module';
+    const ALIAS = 'alias';
 
     protected $configurationFactory;
     protected $requestStack;
@@ -38,13 +38,13 @@ class PrototypeController extends FOSRestController {
         $this->defaultAdapter = $defaultAdapter;
     }
 
-    protected function getDriver( $action,$applicationPath,$entitiesPath,$id=null) {
-        $driver = $this->createConfiguration($action,$applicationPath,$entitiesPath,$id);
+    protected function getDriver($action,$module,$alias,$id=null) {
+        $driver = $this->createConfiguration($action,$module,$alias,$id);
         return new ControllerDriver($driver);
     }
 
-    protected function createConfiguration($action,$applicationPath,$entitiesPath,$id=null) {
-        return $this->configurationFactory->createConfiguration( new ControllerConfiguration(), $action,$applicationPath,$entitiesPath,$id);
+    protected function createConfiguration($action,$module,$alias,$id=null) {
+        return $this->configurationFactory->createConfiguration( new ControllerConfiguration(), $action,$module,$alias,$id);
     }
 
     protected function getServiceObject($model) {
@@ -182,7 +182,7 @@ class PrototypeController extends FOSRestController {
     protected function getUrlToRedirect($driver, $data) {
 
 
-        $urlParameters = [self::APPLICATION_PATH => $driver->getApplicationPath(), self::ENTITIES_PATH => $driver->getEntitiesPath()];
+        $urlParameters = [self::MODULE => $driver->getModule(), self::ALIAS => $driver->getAlias()];
         $redirectionParameters = $this->getRedirectionRouteParameters($driver, $data);
         $parameters = array_merge($urlParameters, $redirectionParameters);
 
@@ -215,7 +215,7 @@ class PrototypeController extends FOSRestController {
     protected function getFormActionUrl($driver, $extraParameters = []) {
 
         $formAction = $driver->getFormAction();
-        $urlParameters = [self::APPLICATION_PATH => $driver->getApplicationPath(), self::ENTITIES_PATH => $driver->getEntitiesPath()];
+        $urlParameters =  [self::MODULE => $driver->getModule(), self::ALIAS => $driver->getAlias()];
 
         if ($formAction) {
             $urlParameters = array_merge($urlParameters, $this->getFormActionParameters($formAction), $extraParameters);

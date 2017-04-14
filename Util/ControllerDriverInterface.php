@@ -10,9 +10,9 @@ interface ControllerDriverInterface {
 
     public function getEntityClass(); 
     
-    public function getApplicationPath();
+    public function getAction();
     
-    public function getEntitiesPath(); 
+    public function getAlias(); 
     
     public function returnResultToView($modelName);
     
