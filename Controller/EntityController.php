@@ -192,7 +192,7 @@ class EntityController extends PrototypeController {
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $result = $this->invokeModelMethod($driver, self::_DELETE, [$entity]);
+            $result = $this->invokeModelMethod($driver, self::_DELETE, [$entity,$request]);
             $view = $this->redirectView($this->getUrlToRedirect($driver, $adapter->getRedirectionData($result)), 301);
             return $this->handleView($view);
         }

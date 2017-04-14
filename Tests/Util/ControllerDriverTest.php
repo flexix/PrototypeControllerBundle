@@ -23,14 +23,14 @@ use \PHPUnit\Framework\TestCase;
 class ControllerDriverTest extends TestCase {
 
     const _ALIAS = 'payment-frequency';
-    const _applicationPath = 'admin/some/other/path';
-    const _entitiesPath = 'discount/2/measure-unit/3/payment-frequency';
+    const _module = 'admin/some/other/path';
+    const _alias = 'discount/2/measure-unit/3/payment-frequency';
     const _ID = '7';
     const _MODEL_NAME = 'get';
 
     static protected $expected_entity_name = 'Flexix\EntityAnalyzerBundle\Entity\PaymentFrequency';
-    static protected $expected_applicationPath = 'admin/some/other/path';
-    static protected $expected_entitiesPath = 'discount/2/measure-unit/3/payment-frequency';
+    static protected $expected_module = 'admin/some/other/path';
+    static protected $expected_alias = 'discount/2/measure-unit/3/payment-frequency';
     static protected $expected_result_parameter = 'productCategory';
     static protected $expected_form_type = 'Flexix\WizardBundle\Form\ViewTypeType';
     static protected $expected_form_action = 'delete';
@@ -56,8 +56,8 @@ class ControllerDriverTest extends TestCase {
         self::$controllerDriver = new ControllerDriver($controllerConfiguration);
 
         self::$request = new Request(['id' => self::_ID], [], [
-            'applicationPath' => self::_applicationPath,
-            'entitiesPath' => self::_entitiesPath
+            'module' => self::_module,
+            'alias' => self::_alias
         ]);
         self::$mapperConfiguration = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'testMapper.yml');
         self::$prototypeConfiguration = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'testPrototypeConfiguration.yml');
@@ -86,8 +86,8 @@ class ControllerDriverTest extends TestCase {
         $baseConfiguration = new Configuration($prototypeConfiguration['flexix_prototype_controller']);
         $configurationFactory = new ControllerConfigurationFactory($baseConfiguration, $requestAnalyzer);
         $developerConfiguration = new Configuration($developerConfiguration['flexix_prototype_controller']);
-        $configurationFactory->addConfiguration($developerConfiguration, self::_applicationPath, self::_ALIAS);
-        $controllerConfiguration = new ControllerConfiguration($configurationFactory->createConfiguration(new ControllerConfiguration(), 'new', self::_applicationPath, self::_entitiesPath,self::_ID));
+        $configurationFactory->addConfiguration($developerConfiguration, self::_module, self::_ALIAS);
+        $controllerConfiguration = new ControllerConfiguration($configurationFactory->createConfiguration(new ControllerConfiguration(), 'new', self::_module, self::_alias,self::_ID));
         return new ControllerDriver($controllerConfiguration);
     }
 
@@ -106,14 +106,14 @@ class ControllerDriverTest extends TestCase {
 
         $controllerDriver = $this->getDriver();
         $applicationPath = $controllerDriver->getApplicationPath();
-        $this->assertEquals($applicationPath, self::$expected_applicationPath);
+        $this->assertEquals($applicationPath, self::$expected_module);
     }
 
     public function testGetEntitiesPath() {
 
         $controllerDriver = $this->getDriver();
         $entitiesPath = $controllerDriver->getEntitiesPath();
-        $this->assertEquals($entitiesPath, self::$expected_entitiesPath);
+        $this->assertEquals($entitiesPath, self::$expected_alias);
     }
 
     public function testReturnResultToView() {
