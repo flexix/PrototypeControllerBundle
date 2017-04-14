@@ -2,7 +2,6 @@
 
 namespace Flexix\PrototypeControllerBundle\Controller;
 
-
 use Flexix\PrototypeControllerBundle\Controller\PrototypeController;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -12,9 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class EntityController extends PrototypeController {
 
-    public function listAction(Request $request, $action,$applicationPath,$entitiesPath) {
+    public function listAction(Request $request, $action, $module, $alias) {
 
-        $driver = $this->getDriver($action,$applicationPath,$entitiesPath);
+        $driver = $this->getDriver($action, $module, $alias);
 
         $this->isActionAllowed($driver, $request);
         $entityClass = $driver->getEntityClass();
@@ -33,15 +32,15 @@ class EntityController extends PrototypeController {
         $adapter->setObject($result);
         $view = $this->view($adapter->getData(), 200)
                 ->setTemplateVar($this->getTemplateVar($driver))
-                ->setTemplateData($adapter->getTemplateData(['driver' => $driver, 'is_xml_http_request' => $request->isXmlHttpRequest(),'is_sub_request' => (boolean)$this->requestStack->getParentRequest()]))
+                ->setTemplateData($adapter->getTemplateData(['driver' => $driver, 'is_xml_http_request' => $request->isXmlHttpRequest(), 'is_sub_request' => (boolean) $this->requestStack->getParentRequest()]))
                 ->setTemplate($driver->getTemplate());
 
         return $this->handleView($view);
     }
 
-    public function filterAction(Request $request, $action,$applicationPath,$entitiesPath) {
+    public function filterAction(Request $request, $action, $module, $alias) {
 
-        $driver = $this->getDriver( $action,$applicationPath,$entitiesPath);
+        $driver = $this->getDriver($action, $module, $alias);
         $this->isActionAllowed($driver, $request);
         $entityClass = $driver->getEntityClass();
         $adapter = $this->getAdapter($driver);
@@ -57,16 +56,16 @@ class EntityController extends PrototypeController {
                             'driver' => $driver,
                             'form' => $form->createView(),
                             'is_xml_http_request' => $request->isXmlHttpRequest(),
-                            'is_sub_request' => (boolean)$this->requestStack->getParentRequest()
+                            'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
                 ]))
                 ->setTemplate($driver->getTemplate());
 
         return $this->handleView($view);
     }
 
-    public function newAction(Request $request, $action,$applicationPath,$entitiesPath) {
+    public function newAction(Request $request, $action, $module, $alias) {
 
-        $driver = $this->getDriver( $action,$applicationPath,$entitiesPath);
+        $driver = $this->getDriver($action, $module, $alias);
         $this->isActionAllowed($driver, $request);
         $entityClass = $driver->getEntityClass();
         $adapter = $this->getAdapter($driver);
@@ -97,7 +96,7 @@ class EntityController extends PrototypeController {
                             'driver' => $driver,
                             'form' => $form->createView(),
                             'is_xml_http_request' => $request->isXmlHttpRequest(),
-                            'is_sub_request' => (boolean)$this->requestStack->getParentRequest()
+                            'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
                 ]))
                 ->setTemplate($driver->getTemplate());
 
@@ -108,9 +107,9 @@ class EntityController extends PrototypeController {
      * Finds and displays entity.
      *
      */
-    public function getAction(Request $request, $action,$applicationPath,$entitiesPath, $id) {
+    public function getAction(Request $request, $action, $module, $alias, $id) {
 
-        $driver = $this->getDriver($action,$applicationPath,$entitiesPath,$id);
+        $driver = $this->getDriver($action, $module, $alias, $id);
         $this->isActionAllowed($driver, $request);
         $adapter = $this->getAdapter($driver);
         $entity = $this->invokeModelMethod($driver, self::_GET, [$driver->getEntityClass(), $id, $request]);
@@ -127,7 +126,7 @@ class EntityController extends PrototypeController {
                             'driver' => $driver,
                             'delete_form' => $deleteForm->createView(),
                             'is_xml_http_request' => $request->isXmlHttpRequest(),
-                            'is_sub_request' => (boolean)$this->requestStack->getParentRequest()
+                            'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
                 ]))
                 ->setTemplate($driver->getTemplate());
 
@@ -138,9 +137,9 @@ class EntityController extends PrototypeController {
      * Displays a form to edit an existing entity.
      *
      */
-    public function editAction(Request $request, $action,$applicationPath,$entitiesPath, $id) {
+    public function editAction(Request $request, $action, $module, $alias, $id) {
 
-        $driver = $this->getDriver( $action,$applicationPath,$entitiesPath,$id);
+        $driver = $this->getDriver($action, $module, $alias, $id);
         $this->isActionAllowed($driver, $request);
         //find
         $adapter = $this->getAdapter($driver);
@@ -175,7 +174,7 @@ class EntityController extends PrototypeController {
                     'delete_form' => $deleteForm->createView(),
                     'form' => $form->createView(),
                     'is_xml_http_request' => $request->isXmlHttpRequest(),
-                    'is_sub_request' => (boolean)$this->requestStack->getParentRequest()
+                    'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
                 ])
                 ->setTemplate($driver->getTemplate());
 
@@ -186,9 +185,9 @@ class EntityController extends PrototypeController {
      * Deletes a product entity.
      *
      */
-    public function deleteAction(Request $request, $action,$applicationPath,$entitiesPath, $id) {
+    public function deleteAction(Request $request, $action, $module, $alias, $id) {
 
-        $driver = $this->getDriver( $action,$applicationPath,$entitiesPath,$id);
+        $driver = $this->getDriver($action, $module, $alias, $id);
         $this->isActionAllowed($driver, $request);
         $adapter = $this->getAdapter($driver);
         $entity = $this->invokeModelMethod($driver, self::_GET, [$driver->getEntityClass(), $id, $request]);
@@ -211,7 +210,7 @@ class EntityController extends PrototypeController {
         return $this->handleView($view);
     }
 
-    private function createDeleteForm($driver,$entity) {
+    private function createDeleteForm($driver, $entity) {
 
         $url = $this->generateUrl('delete', [self::APPLICATION_PATH => $driver->getApplicationPath(), self::ENTITIES_PATH => $driver->getEntitiesPath(), "id" => $entity->getId()]);
         return $this->createFormBuilder()
@@ -219,7 +218,5 @@ class EntityController extends PrototypeController {
                         ->setMethod('DELETE')
                         ->getForm();
     }
-
-
 
 }
