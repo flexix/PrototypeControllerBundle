@@ -22,5 +22,10 @@ class DataAdapter implements DataAdapterInterface {
 
         return $templateData;
     }
+    
+    public function getRedirectionData($redirectionData) {
+        
+        return  ["id",$this->object->getId()];
+    }
 
 }

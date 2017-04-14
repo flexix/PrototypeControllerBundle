@@ -6,5 +6,6 @@ interface DataAdapterInterface
 {
     public function setObject($object);    
     public function getData();
-    public function getTemplateData($templateData);    
+    public function getTemplateData($templateData); 
+    public function getRedirectionData($templateData); 
 } 

@@ -32,7 +32,11 @@ class EntityController extends PrototypeController {
         $adapter->setObject($result);
         $view = $this->view($adapter->getData(), 200)
                 ->setTemplateVar($this->getTemplateVar($driver))
-                ->setTemplateData($adapter->getTemplateData(['driver' => $driver, 'is_xml_http_request' => $request->isXmlHttpRequest(), 'is_sub_request' => (boolean) $this->requestStack->getParentRequest()]))
+                ->setTemplateData($adapter->getTemplateData([
+                            'driver' => $driver,
+                            'is_xml_http_request' => $request->isXmlHttpRequest(),
+                            'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
+                ]))
                 ->setTemplate($driver->getTemplate());
 
         return $this->handleView($view);
@@ -73,19 +77,15 @@ class EntityController extends PrototypeController {
         $adapter->setObject($entity);
         $this->denyAccessUnlessGranted(self::_NEW, $this->getSecurityTicket($driver, $adapter->getData()));
         $form = $this->createForm($this->getFormTypeClass($driver), $entity, ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver)]);
-        $result = $this->invokeModelMethod($driver, self::_NEW, [$entity], true);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //save
             $result = $this->invokeModelMethod($driver, self::_CREATE, [$entity, $request, $form]);
-            $data['id'] = $adapter->getData()->getId();
-            $this->addResultToData($driver, self::_CREATE, $data, $result, false, $this->getDataParameter($driver, self::_CREATE));
 
             if ($driver->shouldRedirect()) {
 
-                $view = $this->redirectView($this->getUrlToRedirect($driver, $data), 301);
+                $view = $this->redirectView($this->getUrlToRedirect($driver, $adapter->getRedirectionData($result)), 301);
                 return $this->handleView($view);
             }
         }
@@ -117,9 +117,6 @@ class EntityController extends PrototypeController {
         $this->checkEntityExists($driver, $adapter);
         $this->denyAccessUnlessGranted(self::_GET, $this->getSecurityTicket($driver, $adapter->getData()));
 
-
-        $deleteForm = $this->createDeleteForm($driver, $entity);
-
         $view = $this->view($adapter->getData(), 200)
                 ->setTemplateVar($this->getTemplateVar($driver))
                 ->setTemplateData($adapter->getTemplateData([
@@ -141,41 +138,34 @@ class EntityController extends PrototypeController {
 
         $driver = $this->getDriver($action, $module, $alias, $id);
         $this->isActionAllowed($driver, $request);
-        //find
+
         $adapter = $this->getAdapter($driver);
         $entity = $this->invokeModelMethod($driver, self::_GET, [$driver->getEntityClass(), $id, $request]);
         $adapter->setObject($entity);
         $this->checkEntityExists($driver, $adapter);
         $this->denyAccessUnlessGranted(self::_EDIT, $this->getSecurityTicket($driver, $adapter->getData()));
 
-
-        $deleteForm = $this->createDeleteForm($driver, $entity);
-
         $form = $this->createForm($this->getFormTypeClass($driver), $entity, ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver, ['id' => $adapter->getData()->getId()])]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $data = [];
             $result = $this->invokeModelMethod($driver, self::_UPDATE, [$entity, $request, $form]);
-            $data['id'] = $adapter->getData()->getId();
-            $this->addResultToData($driver, self::_UPDATE, $data, $result);
 
             if ($driver->shouldRedirect()) {
 
-                $view = $this->redirectView($this->getUrlToRedirect($driver, [$data]), 301);
+                $view = $this->redirectView($this->getUrlToRedirect($driver, $adapter->getRedirectionData($result)), 301);
                 return $this->handleView($view);
             }
         }
-        $view = $this->view($entity, 200)
+        $view = $this->view($adapter->getData(), 200)
                 ->setTemplateVar($this->getTemplateVar($driver))
-                ->setTemplateData([
-                    'driver' => $driver,
-                    'delete_form' => $deleteForm->createView(),
-                    'form' => $form->createView(),
-                    'is_xml_http_request' => $request->isXmlHttpRequest(),
-                    'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
-                ])
+                ->setTemplateData($adapter->getTemplateData([
+                            'driver' => $driver,
+                            'form' => $form->createView(),
+                            'is_xml_http_request' => $request->isXmlHttpRequest(),
+                            'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
+                ]))
                 ->setTemplate($driver->getTemplate());
 
         return $this->handleView($view);
@@ -195,28 +185,29 @@ class EntityController extends PrototypeController {
         $this->checkEntityExists($driver, $adapter->getData());
         $this->denyAccessUnlessGranted(self::_DELETE, $this->getSecurityTicket($driver, $adapter->getData()));
 
-        $form = $this->createDeleteForm($driver, $adapter->getData());
+        $url = $this->generateUrl('delete', [self::APPLICATION_PATH => $driver->getApplicationPath(), self::ENTITIES_PATH => $driver->getEntitiesPath(), "id" => $adapter->getData()->getId()]);
+        $form = $this->createFormBuilder()
+                ->setAction($url)
+                ->setMethod('DELETE')
+                ->getForm();
+
         $form->handleRequest($request);
-
-        $data = [];
-
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $result = $this->invokeModelMethod($driver, self::_DELETE, [$entity]);
-            $this->addResultToData($driver, self::_UPDATE, $data, $result, false, $this->getDataParameter($driver, self::_DELETE));
+            $view = $this->redirectView($this->getUrlToRedirect($driver, $adapter->getRedirectionData($result)), 301);
+            return $this->handleView($view);
         }
 
-        $view = $this->redirectView($this->getUrlToRedirect($driver, $data), 301);
-        return $this->handleView($view);
-    }
-
-    private function createDeleteForm($driver, $entity) {
-
-        $url = $this->generateUrl('delete', [self::APPLICATION_PATH => $driver->getApplicationPath(), self::ENTITIES_PATH => $driver->getEntitiesPath(), "id" => $entity->getId()]);
-        return $this->createFormBuilder()
-                        ->setAction($url)
-                        ->setMethod('DELETE')
-                        ->getForm();
+        $view = $this->view($adapter->getData(), 200)
+                ->setTemplateVar($this->getTemplateVar($driver))
+                ->setTemplateData($adapter->getTemplateData([
+                            'driver' => $driver,
+                            'form' => $form->createView(),
+                            'is_xml_http_request' => $request->isXmlHttpRequest(),
+                            'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
+                ]))
+        ->setTemplate($driver->getTemplate());
     }
 
 }
