@@ -14,7 +14,6 @@ class EntityController extends PrototypeController {
     public function listAction(Request $request, $action, $module, $alias) {
 
         $driver = $this->getDriver($action, $module, $alias);
-
         $this->isActionAllowed($driver, $request);
         $entityClass = $driver->getEntityClass();
         $adapter = $this->getAdapter($driver);
@@ -143,7 +142,7 @@ class EntityController extends PrototypeController {
         $entity = $this->invokeModelMethod($driver, self::_GET, [$driver->getEntityClass(), $id, $request]);
         $adapter->setObject($entity);
         $this->checkEntityExists($driver, $adapter);
-        $this->denyAccessUnlessGranted(self::_EDIT, $this->getSecurityTicket($driver, $adapter->getData()));
+        $this->denyAccessUnlessGranted(self::_UPDATE, $this->getSecurityTicket($driver, $adapter->getData()));
 
         $form = $this->createForm($this->getFormTypeClass($driver), $entity, ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver, ['id' => $adapter->getData()->getId()])]);
         $form->handleRequest($request);
@@ -172,7 +171,7 @@ class EntityController extends PrototypeController {
     }
 
     /**
-     * Deletes a product entity.
+     * Deletes  entity.
      *
      */
     public function deleteAction(Request $request, $action, $module, $alias, $id) {
@@ -185,9 +184,8 @@ class EntityController extends PrototypeController {
         $this->checkEntityExists($driver, $adapter->getData());
         $this->denyAccessUnlessGranted(self::_DELETE, $this->getSecurityTicket($driver, $adapter->getData()));
 
-        $url = $this->generateUrl('delete', [self::APPLICATION_PATH => $driver->getApplicationPath(), self::ENTITIES_PATH => $driver->getEntitiesPath(), "id" => $adapter->getData()->getId()]);
         $form = $this->createFormBuilder()
-                ->setAction($url)
+                ->setAction($this->getFormActionUrl($driver, ['id' => $adapter->getData()->getId()]))
                 ->setMethod('DELETE')
                 ->getForm();
 
@@ -207,7 +205,7 @@ class EntityController extends PrototypeController {
                             'is_xml_http_request' => $request->isXmlHttpRequest(),
                             'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
                 ]))
-        ->setTemplate($driver->getTemplate());
+                ->setTemplate($driver->getTemplate());
     }
 
 }
