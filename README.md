@@ -102,6 +102,7 @@ services:
  ```      
        
        
-       
+  
+For more information read: [how to start](https://github.com/flexix/PrototypeControllerBundle/blob/master/Resources/config/docs/how%20to%20start.md)     
        
        
