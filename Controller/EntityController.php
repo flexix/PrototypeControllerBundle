@@ -11,6 +11,31 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class EntityController extends PrototypeController {
 
+    
+    
+     public function indexAction(Request $request, $action, $module, $alias) {
+
+        $driver = $this->getDriver($action, $module, $alias);
+        $this->isActionAllowed($driver, $request);
+        $entityClass = $driver->getEntityClass();
+        $adapter = $this->getAdapter($driver);
+        $entity = $this->createEntity($entityClass);
+        $adapter->setObject($entity);
+        $this->denyAccessUnlessGranted(self::_LIST, $this->getSecurityTicket($driver, $adapter->getData()));
+        
+        $view = $this->view([], 200)
+                ->setTemplateVar($this->getTemplateVar($driver))
+                ->setTemplateData($adapter->getTemplateData([
+                            'driver' => $driver,
+                            'is_xml_http_request' => $request->isXmlHttpRequest(),
+                            'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
+                ]))
+                ->setTemplate($driver->getTemplate());
+
+        return $this->handleView($view);
+    }
+    
+    
     public function listAction(Request $request, $action, $module, $alias) {
 
         $driver = $this->getDriver($action, $module, $alias);
@@ -26,9 +51,10 @@ class EntityController extends PrototypeController {
             $form = $this->createForm($this->getFormTypeClass($driver), $entity, ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver)]);
             $form->handleRequest($request);
         }
-
-        $result = $this->invokeModelMethod($driver, self::_LIST, [$driver->getEntityClass(), $request, $form], true);
+  
+        $result = $this->invokeServiceMethod($driver, self::_LIST, [$driver->getEntityClass(), $request, $form]);
         $adapter->setObject($result);
+        $this->denyAccessUnlessGranted(self::_LIST, $this->getSecurityTicket($driver, $adapter->getData()));
         $view = $this->view($adapter->getData(), 200)
                 ->setTemplateVar($this->getTemplateVar($driver))
                 ->setTemplateData($adapter->getTemplateData([
@@ -51,7 +77,7 @@ class EntityController extends PrototypeController {
         $adapter->setObject($entity);
         $this->denyAccessUnlessGranted(self::_LIST, $this->getSecurityTicket($driver, $adapter->getData()));
         $form = $this->createForm($this->getFormTypeClass($driver), $entity, ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver)]);
-        $result = $this->invokeModelMethod($driver, self::_LIST, [$entity, $request], true);
+        $result = $this->invokeServiceMethod($driver, self::_LIST, [$entity, $request], true);
         $form->handleRequest($request);
         $view = $this->view($adapter->getData(), 200)
                 ->setTemplateVar($this->getTemplateVar($driver))
@@ -80,7 +106,7 @@ class EntityController extends PrototypeController {
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $result = $this->invokeModelMethod($driver, self::_CREATE, [$entity, $request, $form]);
+            $result = $this->invokeServiceMethod($driver, self::_CREATE, [$entity, $request, $form]);
 
             if ($driver->shouldRedirect()) {
 
@@ -111,7 +137,7 @@ class EntityController extends PrototypeController {
         $driver = $this->getDriver($action, $module, $alias, $id);
         $this->isActionAllowed($driver, $request);
         $adapter = $this->getAdapter($driver);
-        $entity = $this->invokeModelMethod($driver, self::_GET, [$driver->getEntityClass(), $id, $request]);
+        $entity = $this->invokeServiceMethod($driver, self::_GET, [$driver->getEntityClass(), $id, $request]);
         $adapter->setObject($entity);
         $this->checkEntityExists($driver, $adapter);
         $this->denyAccessUnlessGranted(self::_GET, $this->getSecurityTicket($driver, $adapter->getData()));
@@ -138,7 +164,7 @@ class EntityController extends PrototypeController {
         $this->isActionAllowed($driver, $request);
 
         $adapter = $this->getAdapter($driver);
-        $entity = $this->invokeModelMethod($driver, self::_GET, [$driver->getEntityClass(), $id, $request]);
+        $entity = $this->invokeServiceMethod($driver, self::_GET, [$driver->getEntityClass(), $id, $request]);
         $adapter->setObject($entity);
         $this->checkEntityExists($driver, $adapter);
         $this->denyAccessUnlessGranted(self::_UPDATE, $this->getSecurityTicket($driver, $adapter->getData()));
@@ -148,7 +174,7 @@ class EntityController extends PrototypeController {
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $result = $this->invokeModelMethod($driver, self::_UPDATE, [$entity, $request, $form]);
+            $result = $this->invokeServiceMethod($driver, self::_UPDATE, [$entity, $request, $form]);
 
             if ($driver->shouldRedirect()) {
 
@@ -178,7 +204,7 @@ class EntityController extends PrototypeController {
         $driver = $this->getDriver($action, $module, $alias, $id);
         $this->isActionAllowed($driver, $request);
         $adapter = $this->getAdapter($driver);
-        $entity = $this->invokeModelMethod($driver, self::_GET, [$driver->getEntityClass(), $id, $request]);
+        $entity = $this->invokeServiceMethod($driver, self::_GET, [$driver->getEntityClass(), $id, $request]);
         $adapter->setObject($entity);
         $this->checkEntityExists($driver, $adapter->getData());
         $this->denyAccessUnlessGranted(self::_DELETE, $this->getSecurityTicket($driver, $adapter->getData()));
@@ -191,7 +217,7 @@ class EntityController extends PrototypeController {
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $result = $this->invokeModelMethod($driver, self::_DELETE, [$entity,$request]);
+            $result = $this->invokeServiceMethod($driver, self::_DELETE, [$entity,$request]);
             $view = $this->redirectView($this->getUrlToRedirect($driver, $adapter->getRedirectionData($result)), 301);
             return $this->handleView($view);
         }

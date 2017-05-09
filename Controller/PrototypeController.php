@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Flexix\PrototypeControllerBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -38,13 +37,13 @@ class PrototypeController extends FOSRestController {
         $this->defaultAdapter = $defaultAdapter;
     }
 
-    protected function getDriver($action,$module,$alias,$id=null) {
-        $driver = $this->createConfiguration($action,$module,$alias,$id);
+    protected function getDriver($action, $module, $alias, $id = null) {
+        $driver = $this->createConfiguration($action, $alias, $module, $id);
         return new ControllerDriver($driver);
     }
 
-    protected function createConfiguration($action,$module,$alias,$id=null) {
-        return $this->configurationFactory->createConfiguration( new ControllerConfiguration(), $action,$module,$alias,$id);
+    protected function createConfiguration($action, $module, $alias, $id = null) {
+        return $this->configurationFactory->createConfiguration(new ControllerConfiguration(), $action, $module, $alias, $id);
     }
 
     protected function getServiceObject($model) {
@@ -59,19 +58,18 @@ class PrototypeController extends FOSRestController {
         return $object;
     }
 
-    protected function invokeServiceMethod($driver, $modelName, $arguments = [], $optional = false) {
+    protected function invokeServiceMethod($driver, $serviceName, $arguments = [], $optional = false) {
 
-        if ($driver->hasService($modelName)) {
 
-            $model = $driver->getService($modelName);
-            if ($model) {
-                $object = $this->getServiceObject($model);
-                $arguments[] = $driver;
-                return call_user_func_array(array($object, $model['method']), $arguments);
-            }
+        if ($driver->hasService($serviceName)) {
+            $service = $driver->getService($serviceName);
+            $object = $this->getServiceObject($service);
+            $arguments[] = $driver;
+            return call_user_func_array(array($object, $service['method']), $arguments);
         } else {
+
             if (!$optional) {
-                throw new \Exception(sprintf("Service: \"%s\" doesn\'t exists", $modelName));
+                throw new \Exception(sprintf("Service: \"%s\" doesn\'t exists", $serviceName));
             }
         }
     }
@@ -214,7 +212,7 @@ class PrototypeController extends FOSRestController {
     protected function getFormActionUrl($driver, $extraParameters = []) {
 
         $formAction = $driver->getFormAction();
-        $urlParameters =  [self::MODULE => $driver->getModule(), self::ALIAS => $driver->getAlias()];
+        $urlParameters = [self::MODULE => $driver->getModule(), self::ALIAS => $driver->getAlias()];
 
         if ($formAction) {
             $urlParameters = array_merge($urlParameters, $this->getFormActionParameters($formAction), $extraParameters);

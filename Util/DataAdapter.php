@@ -19,7 +19,6 @@ class DataAdapter implements DataAdapterInterface {
     }
 
     public function getTemplateData($templateData) {
-
         return $templateData;
     }
     

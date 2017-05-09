@@ -35,7 +35,7 @@ class ControllerDriver implements ControllerDriverInterface {
 
     public function getEntityClass() {
 
-        return $this->configuration->get(sprintf('%s.%s',self::PATH,'entity_class'));
+        return $this->configuration->get(sprintf('%s.%s',self::PATH,'class'));
     }
 
     public function getModule() {
@@ -109,7 +109,7 @@ class ControllerDriver implements ControllerDriverInterface {
 
         $modelName = sprintf('services.%s', $name);
 
-        if ($this->configuration->has('models')) {
+        if ($this->configuration->has('services')) {
 
             $model = $this->configuration->get($modelName);
 
@@ -129,7 +129,7 @@ class ControllerDriver implements ControllerDriverInterface {
             return $model;
         } else {
 
-            throw new \Exception('Service %s doesn\'t exists in configuration');
+            throw new \Exception(sprintf('Service %s doesn\'t exists in configuration',$name));
         }
     }
 

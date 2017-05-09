@@ -52,15 +52,15 @@ class ConfigurationPass implements CompilerPassInterface {
                 throw new \Exception(sprintf('There is no "%s" parameter for "%s" named service', self::ALIAS, $id));
             }           
             
-            if (!array_key_exists(self::ACTION, $attributes)) {
-
-                throw new \Exception(sprintf('There is no "%s" parameter for "%s" named service', self::ACTION, $id));
-            }
+//            if (!array_key_exists(self::ACTION, $attributes)) {
+//
+//                throw new \Exception(sprintf('There is no "%s" parameter for "%s" named service', self::ACTION, $id));
+//            }
             
 
             $definition->addMethodCall(self::METHOD_NAME, array(
                 new Reference($id),
-                $attributes[self::ACTION], $attributes[self::ALIAS],$attributes[self::MODULE]
+                /*$attributes[self::ACTION],*/ $attributes[self::ALIAS],$attributes[self::MODULE]
             ));
         }
     }
