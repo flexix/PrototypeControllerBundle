@@ -1,18 +1,18 @@
 list:
-    path: "{module}/{alias}/list"
+    path: "{module}/{alias}/{action}"
     defaults: { _controller: "flexix_prototype_controller.entity_controller:listAction", "action": "list", format: ~, module: null }
     methods:  [GET, POST]
     options:
         expose: true 
 filter:
-    path: "{module}/{alias}/filter"
+    path: "{module}/{alias}/{action}"
     defaults: { _controller: "flexix_prototype_controller.entity_controller:filterAction", "action": "filter", format: ~, module: null }
     methods:  [GET, POST]
     options:
         expose: true    
         
 typeahead:
-    path: "{module}/{alias}/typeahead/{field}"
+    path: "{module}/{alias}/{action}/{field}"
     defaults: { _controller: "flexix_prototype_controller.entity_controller:listAction", "action": "typeahead", format: ~, module: null }
     methods:  [GET, POST]
     options:
@@ -25,19 +25,19 @@ new:
     options:
         expose: true        
 delete:
-    path: "{module}/{alias}/delete/{id}"
+    path: "{module}/{alias}/{action}/{id}"
     defaults: { _controller: "flexix_prototype_controller.entity_controller:deleteAction", "action": "delete", format: ~,id: null, module: null }
     methods:  [GET,DELETE]
     options:
         expose: true
 edit:
-    path: "{module}/{alias}/edit/{id}"
+    path: "{module}/{alias}/{action}/{id}"
     defaults: { _controller: "flexix_prototype_controller.entity_controller:editAction",  "action": "edit", format: ~, id: null, module: null }
     methods:  [GET, POST]
     options:
         expose: true            
 get:
-    path: "{module}/{alias}/get/{id}"
+    path: "{module}/{alias}/{action}/{id}"
     defaults: { _controller: "flexix_prototype_controller.entity_controller:getAction","action": "get", format: ~,id: null, module: null }
     methods:  [GET, POST]
     options:

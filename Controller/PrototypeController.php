@@ -61,7 +61,6 @@ class PrototypeController extends FOSRestController {
 
     protected function invokeServiceMethod($driver, $modelName, $arguments = [], $optional = false) {
 
-
         if ($driver->hasService($modelName)) {
 
             $model = $driver->getService($modelName);
