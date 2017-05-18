@@ -20,7 +20,7 @@ filter:
         expose: true    
         
 typeahead:
-    path: "{module}/{alias}/{typeahead}/{field}"
+    path: "{module}/{alias}/typeahead/{field}"
     defaults: { _controller: "flexix_prototype_controller.entity_controller:listAction", "action": "typeahead", format: ~, module: null }
     methods:  [GET, POST]
     options:

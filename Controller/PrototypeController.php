@@ -91,6 +91,7 @@ class PrototypeController extends FOSRestController {
     protected function checkActionAllowed($driver, $request) {
 
         $actionAllowed = $driver->getActionAllowed();
+        dump($actionAllowed);
 
         if (is_array($actionAllowed)) {
 
