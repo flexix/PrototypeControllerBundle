@@ -91,7 +91,6 @@ class PrototypeController extends FOSRestController {
     protected function checkActionAllowed($driver, $request) {
 
         $actionAllowed = $driver->getActionAllowed();
-        dump($actionAllowed);
 
         if (is_array($actionAllowed)) {
 
@@ -252,12 +251,17 @@ class PrototypeController extends FOSRestController {
 
     protected function getAdapter($driver) {
 
-        $adapter = $driver->getAdapter();
-        if ($adapter) {
-            return $this->get($adapter);
+        $adapterService = $driver->getAdapter();
+        
+        if ($adapterService) {
+            $adapter=$this->get($adapterService);
+        
         } else {
-            return $this->defaultAdapter;
+            $adapter=$this->defaultAdapter;
         }
+        $adapter->setDriver($driver);
+        return $adapter;
+        
     }
 
 }

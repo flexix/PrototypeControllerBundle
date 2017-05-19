@@ -7,7 +7,15 @@ use Flexix\PrototypeControllerBundle\Util\DataAdapterInterface;
 class DataAdapter implements DataAdapterInterface {
 
     protected $object;
-
+    protected $driver;
+    
+    
+   
+    public function setDriver($driver)
+    {
+        $this->driver=$driver;
+    } 
+    
     public function setObject($object) {
 
         $this->object = $object;
