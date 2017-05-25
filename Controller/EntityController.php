@@ -206,13 +206,15 @@ class EntityController extends PrototypeController {
         $adapter = $this->getAdapter($driver);
         $entity = $this->invokeServiceMethod($driver, self::_GET, [$driver->getEntityClass(), $id, $request]);
         $adapter->setObject($entity);
-        $this->checkEntityExists($driver, $adapter->getData());
+        $this->checkEntityExists($driver, $adapter);
         $this->denyAccessUnlessGranted(self::_DELETE, $this->getSecurityTicket($driver, $adapter->getData()));
 
-        $form = $this->createFormBuilder()
+        
+        $form = $this->container->get('form.factory')->createNamedBuilder(sprintf('%s_%s_delete',$module,$alias))
                 ->setAction($this->getFormActionUrl($driver, ['id' => $adapter->getData()->getId()]))
                 ->setMethod('DELETE')
                 ->getForm();
+;
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -231,6 +233,7 @@ class EntityController extends PrototypeController {
                             'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
                 ]))
                 ->setTemplate($driver->getTemplate());
+        return $this->handleView($view);
     }
 
 }
