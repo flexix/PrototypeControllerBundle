@@ -114,8 +114,17 @@ class EntityController extends PrototypeController {
                 return $this->handleView($view);
             }
         }
+         
+        if($form->isSubmitted() && !$form->isValid())
+        {
+            $httpCode=400;
+        }
+        else
+        {
+            $httpCode=200;
+        }
 
-        $view = $this->view($adapter->getData(), 200)
+        $view = $this->view($adapter->getData(), $httpCode)
                 ->setTemplateVar($this->getTemplateVar($driver))
                 ->setTemplateData($adapter->getTemplateData([
                             'form' => $form->createView(),
@@ -182,7 +191,17 @@ class EntityController extends PrototypeController {
                 return $this->handleView($view);
             }
         }
-        $view = $this->view($adapter->getData(), 200)
+        
+        if($form->isSubmitted() && !$form->isValid())
+        {
+            $httpCode=400;
+        }
+        else
+        {
+            $httpCode=200;
+        }
+        
+        $view = $this->view($adapter->getData(), $httpCode)
                 ->setTemplateVar($this->getTemplateVar($driver))
                 ->setTemplateData($adapter->getTemplateData([
                             'form' => $form->createView(),
@@ -214,7 +233,7 @@ class EntityController extends PrototypeController {
                 ->setAction($this->getFormActionUrl($driver, ['id' => $adapter->getData()->getId()]))
                 ->setMethod('DELETE')
                 ->getForm();
-;
+
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -223,8 +242,17 @@ class EntityController extends PrototypeController {
             $view = $this->redirectView($this->getUrlToRedirect($driver, $adapter->getRedirectionData($result)), 301);
             return $this->handleView($view);
         }
+        
+        if($form->isSubmitted() && !$form->isValid())
+        {
+            $httpCode=400;
+        }
+        else
+        {
+            $httpCode=200;
+        }
 
-        $view = $this->view($adapter->getData(), 200)
+        $view = $this->view($adapter->getData(), $httpCode)
                 ->setTemplateVar($this->getTemplateVar($driver))
                 ->setTemplateData($adapter->getTemplateData([
                             'driver' => $driver,
