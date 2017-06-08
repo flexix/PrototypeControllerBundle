@@ -1,5 +1,10 @@
-flexix_prototype_controller_prototype:
+flexix_prototype_controller_entity:
     resource: "@FlexixPrototypeControllerBundle/Resources/config/routing/entity.yml"
+    prefix:   /
+
+
+flexix_prototype_controller_extra:
+    resource: "@FlexixPrototypeControllerBundle/Resources/config/routing/extra.yml"
     prefix:   /
 
 
