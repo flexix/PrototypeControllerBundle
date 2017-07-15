@@ -48,7 +48,7 @@ class EntityController extends PrototypeController {
 
         if ($formTypeClass) {
 
-            $form = $this->createForm($this->getFormTypeClass($driver), [], ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver)]);
+            $form = $this->createForm($this->getFormTypeClass($driver), [], ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver,[],$adapter)]);
             $form->handleRequest($request);
         }
   
@@ -76,7 +76,7 @@ class EntityController extends PrototypeController {
         $entity = $this->createEntity($entityClass);
         $adapter->setObject($entity);
         $this->denyAccessUnlessGranted(self::_LIST, $this->getSecurityTicket($driver, $adapter->getData()));
-        $form = $this->createForm($this->getFormTypeClass($driver), [], ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver)]);
+        $form = $this->createForm($this->getFormTypeClass($driver), [], ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver,[],$adapter)]);
         $result = $this->invokeServiceMethod($driver, self::_LIST, [$entity, $request], true);
         $form->handleRequest($request);
         $view = $this->view($adapter->getData(), 200)
@@ -101,7 +101,7 @@ class EntityController extends PrototypeController {
         $entity = $this->createEntity($entityClass);
         $adapter->setObject($entity);
         $this->denyAccessUnlessGranted(self::_NEW, $this->getSecurityTicket($driver, $adapter->getData()));
-        $form = $this->createForm($this->getFormTypeClass($driver), $entity, ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver)]);
+        $form = $this->createForm($this->getFormTypeClass($driver), $entity, ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver,[],$adapter)]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -178,7 +178,7 @@ class EntityController extends PrototypeController {
         $this->checkEntityExists($driver, $adapter);
         $this->denyAccessUnlessGranted(self::_UPDATE, $this->getSecurityTicket($driver, $adapter->getData()));
 
-        $form = $this->createForm($this->getFormTypeClass($driver), $entity, ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver, ['id' => $adapter->getData()->getId()])]);
+        $form = $this->createForm($this->getFormTypeClass($driver), $entity, ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver, ['id' => $adapter->getData()->getId()],$adapter)]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -230,7 +230,7 @@ class EntityController extends PrototypeController {
 
         
         $form = $this->container->get('form.factory')->createNamedBuilder(sprintf('%s_%s_delete',$module,$alias))
-                ->setAction($this->getFormActionUrl($driver, ['id' => $adapter->getData()->getId()]))
+                ->setAction($this->getFormActionUrl($driver, ['id' => $adapter->getData()->getId()],$adapter))
                 ->setMethod('DELETE')
                 ->getForm();
 

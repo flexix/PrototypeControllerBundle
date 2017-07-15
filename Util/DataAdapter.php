@@ -34,5 +34,12 @@ class DataAdapter implements DataAdapterInterface {
         
         return  ["id",$this->object->getId()];
     }
+    
+    
+    public function getFormActionParameters($parameters)
+    {
+        
+        return $parameters;
+    } 
 
 }

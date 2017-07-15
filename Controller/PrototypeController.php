@@ -209,14 +209,14 @@ class PrototypeController extends FOSRestController {
         }
     }
 
-    protected function getFormActionUrl($driver, $extraParameters = []) {
+    protected function getFormActionUrl($driver, $extraParameters = [],$adapter) {
 
         $formAction = $driver->getFormAction();
         $urlParameters = [self::MODULE => $driver->getModule(), self::ALIAS => $driver->getAlias()];
 
         if ($formAction) {
             $urlParameters = array_merge($urlParameters, $this->getFormActionParameters($formAction), $extraParameters);
-            $uri = $this->generateUrl($formAction, $urlParameters);
+            $uri = $this->generateUrl($formAction, $adapter->getFormActionParameters($urlParameters));
         }
 
         return $uri;

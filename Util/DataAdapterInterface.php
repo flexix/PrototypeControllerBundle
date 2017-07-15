@@ -9,4 +9,5 @@ interface DataAdapterInterface
     public function getData();
     public function getTemplateData($templateData); 
     public function getRedirectionData($templateData); 
+    public function getFormActionParameters($urlParameters); 
 } 
