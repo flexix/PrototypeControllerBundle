@@ -34,6 +34,10 @@ services:
         class: Flexix\PrototypeControllerBundle\Util\Ticket
         arguments: []       
         shared: false
+        
+    flexix_prototype_controller.context:
+        class: Flexix\PrototypeControllerBundle\Util\Context
+        arguments: ['@request_stack'] 
             
  
             
