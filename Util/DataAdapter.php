@@ -16,6 +16,20 @@ class DataAdapter implements DataAdapterInterface {
         $this->driver=$driver;
     } 
     
+    
+    
+    public function setRequest($request)
+    {
+        $this->request=$request;
+    }
+    
+    
+    
+    public function getRequest()
+    {
+       return $this->request;
+    }
+    
     public function setObject($object) {
 
         $this->object = $object;

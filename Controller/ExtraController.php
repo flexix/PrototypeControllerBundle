@@ -20,7 +20,8 @@ class ExtraController extends PrototypeController {
         $driver = $this->getDriver($action, $module, $alias, $id);
         $this->isActionAllowed($driver, $request);
         $adapter = $this->getAdapter($driver);
-        $entity = $this->invokeServiceMethod($driver, self::_GET, [$driver->getEntityClass(), $id, $request]);
+        $adapter->setRequest($request);
+        $entity = $this->invokeServiceMethod($driver, self::_GET, [$driver->getEntityClass(), $id, $adapter->getRequest()]);
         $adapter->setObject($entity);
         $this->checkEntityExists($driver, $adapter);
         $this->denyAccessUnlessGranted(self::_GET, $this->getSecurityTicket($driver, $adapter->getData()));
@@ -29,7 +30,7 @@ class ExtraController extends PrototypeController {
                 ->setTemplateVar($this->getTemplateVar($driver))
                 ->setTemplateData($adapter->getTemplateData([
                             'driver' => $driver,
-                            'is_xml_http_request' => $request->isXmlHttpRequest(),
+                            'is_xml_http_request' => $adapter->getRequest()->isXmlHttpRequest(),
                             'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
                 ]))
                 ->setTemplate($driver->getTemplate());

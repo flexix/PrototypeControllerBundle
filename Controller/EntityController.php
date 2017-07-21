@@ -21,13 +21,14 @@ class EntityController extends PrototypeController {
         $adapter = $this->getAdapter($driver);
         $entity = $this->createEntity($entityClass);
         $adapter->setObject($entity);
+        $adapter->setRequest($request);
         $this->denyAccessUnlessGranted(self::_LIST, $this->getSecurityTicket($driver, $adapter->getData()));
         
         $view = $this->view([], 200)
                 ->setTemplateVar($this->getTemplateVar($driver))
                 ->setTemplateData($adapter->getTemplateData([
                             'driver' => $driver,
-                            'is_xml_http_request' => $request->isXmlHttpRequest(),
+                            'is_xml_http_request' => $adapter->getRequest()->isXmlHttpRequest(),
                             'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
                 ]))
                 ->setTemplate($driver->getTemplate());
@@ -42,6 +43,7 @@ class EntityController extends PrototypeController {
         $this->isActionAllowed($driver, $request);
         $entityClass = $driver->getEntityClass();
         $adapter = $this->getAdapter($driver);
+        $adapter->setRequest($request);
         $entity = $this->createEntity($entityClass);
         $formTypeClass = $this->getFormTypeClass($driver, false);
         $form = null;
@@ -49,17 +51,17 @@ class EntityController extends PrototypeController {
         if ($formTypeClass) {
 
             $form = $this->createForm($this->getFormTypeClass($driver), [], ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver,[],$adapter)]);
-            $form->handleRequest($request);
+            $form->handleRequest($adapter->getRequest());
         }
   
-        $result = $this->invokeServiceMethod($driver, self::_LIST, [$driver->getEntityClass(), $request, $form]);
+        $result = $this->invokeServiceMethod($driver, self::_LIST, [$driver->getEntityClass(), $adapter->getRequest(), $form]);
         $adapter->setObject($result);
         $this->denyAccessUnlessGranted(self::_LIST, $this->getSecurityTicket($driver, $adapter->getData()));
         $view = $this->view($adapter->getData(), 200)
                 ->setTemplateVar($this->getTemplateVar($driver))
                 ->setTemplateData($adapter->getTemplateData([
                             'driver' => $driver,
-                            'is_xml_http_request' => $request->isXmlHttpRequest(),
+                            'is_xml_http_request' => $adapter->getRequest()->isXmlHttpRequest(),
                             'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
                 ]))
                 ->setTemplate($driver->getTemplate());
@@ -75,16 +77,17 @@ class EntityController extends PrototypeController {
         $adapter = $this->getAdapter($driver);
         $entity = $this->createEntity($entityClass);
         $adapter->setObject($entity);
+        $adapter->setRequest($request);
         $this->denyAccessUnlessGranted(self::_LIST, $this->getSecurityTicket($driver, $adapter->getData()));
         $form = $this->createForm($this->getFormTypeClass($driver), [], ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver,[],$adapter)]);
-        $result = $this->invokeServiceMethod($driver, self::_LIST, [$entity, $request], true);
-        $form->handleRequest($request);
+        $result = $this->invokeServiceMethod($driver, self::_LIST, [$entity, $adapter->getRequest()], true);
+        $form->handleRequest($adapter->getRequest());
         $view = $this->view($adapter->getData(), 200)
                 ->setTemplateVar($this->getTemplateVar($driver))
                 ->setTemplateData($adapter->getTemplateData([
                             'form' => $form->createView(),
                             'driver' => $driver,
-                            'is_xml_http_request' => $request->isXmlHttpRequest(),
+                            'is_xml_http_request' => $adapter->getRequest()->isXmlHttpRequest(),
                             'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
                 ]))
                 ->setTemplate($driver->getTemplate());
@@ -100,13 +103,14 @@ class EntityController extends PrototypeController {
         $adapter = $this->getAdapter($driver);
         $entity = $this->createEntity($entityClass);
         $adapter->setObject($entity);
+        $adapter->setRequest($request);
         $this->denyAccessUnlessGranted(self::_NEW, $this->getSecurityTicket($driver, $adapter->getData()));
         $form = $this->createForm($this->getFormTypeClass($driver), $entity, ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver,[],$adapter)]);
-        $form->handleRequest($request);
+        $form->handleRequest($adapter->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $result = $this->invokeServiceMethod($driver, self::_CREATE, [$entity, $request, $form]);
+            $result = $this->invokeServiceMethod($driver, self::_CREATE, [$entity, $adapter->getRequest(), $form]);
 
             if ($driver->shouldRedirect()) {
 
@@ -129,7 +133,7 @@ class EntityController extends PrototypeController {
                 ->setTemplateData($adapter->getTemplateData([
                             'form' => $form->createView(),
                             'driver' => $driver,
-                            'is_xml_http_request' => $request->isXmlHttpRequest(),
+                            'is_xml_http_request' => $adapter->getRequest()->isXmlHttpRequest(),
                             'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
                 ]))
                 ->setTemplate($driver->getTemplate());
@@ -146,8 +150,10 @@ class EntityController extends PrototypeController {
         $driver = $this->getDriver($action, $module, $alias, $id);
         $this->isActionAllowed($driver, $request);
         $adapter = $this->getAdapter($driver);
-        $entity = $this->invokeServiceMethod($driver, self::_GET, [$driver->getEntityClass(), $id, $request]);
+        $adapter->setRequest($request);
+        $entity = $this->invokeServiceMethod($driver, self::_GET, [$driver->getEntityClass(), $id, $adapter->getRequest()]);
         $adapter->setObject($entity);
+        
         $this->checkEntityExists($driver, $adapter);
         $this->denyAccessUnlessGranted(self::_GET, $this->getSecurityTicket($driver, $adapter->getData()));
 
@@ -155,7 +161,7 @@ class EntityController extends PrototypeController {
                 ->setTemplateVar($this->getTemplateVar($driver))
                 ->setTemplateData($adapter->getTemplateData([
                             'driver' => $driver,
-                            'is_xml_http_request' => $request->isXmlHttpRequest(),
+                            'is_xml_http_request' => $adapter->getRequest()->isXmlHttpRequest(),
                             'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
                 ]))
                 ->setTemplate($driver->getTemplate());
@@ -171,19 +177,19 @@ class EntityController extends PrototypeController {
 
         $driver = $this->getDriver($action, $module, $alias, $id);
         $this->isActionAllowed($driver, $request);
-
         $adapter = $this->getAdapter($driver);
-        $entity = $this->invokeServiceMethod($driver, self::_GET, [$driver->getEntityClass(), $id, $request]);
+        $adapter->setRequest($request);
+        $entity = $this->invokeServiceMethod($driver, self::_GET, [$driver->getEntityClass(), $id, $adapter->getRequest()]);
         $adapter->setObject($entity);
         $this->checkEntityExists($driver, $adapter);
         $this->denyAccessUnlessGranted(self::_UPDATE, $this->getSecurityTicket($driver, $adapter->getData()));
 
         $form = $this->createForm($this->getFormTypeClass($driver), $entity, ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver, ['id' => $adapter->getData()->getId()],$adapter)]);
-        $form->handleRequest($request);
+        $form->handleRequest($adapter->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $result = $this->invokeServiceMethod($driver, self::_UPDATE, [$entity, $request, $form]);
+            $result = $this->invokeServiceMethod($driver, self::_UPDATE, [$entity, $adapter->getRequest(), $form]);
 
             if ($driver->shouldRedirect()) {
 
@@ -206,7 +212,7 @@ class EntityController extends PrototypeController {
                 ->setTemplateData($adapter->getTemplateData([
                             'form' => $form->createView(),
                             'driver' => $driver,
-                            'is_xml_http_request' => $request->isXmlHttpRequest(),
+                            'is_xml_http_request' => $adapter->getRequest()->isXmlHttpRequest(),
                             'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
                 ]))
                 ->setTemplate($driver->getTemplate());
@@ -223,7 +229,8 @@ class EntityController extends PrototypeController {
         $driver = $this->getDriver($action, $module, $alias, $id);
         $this->isActionAllowed($driver, $request);
         $adapter = $this->getAdapter($driver);
-        $entity = $this->invokeServiceMethod($driver, self::_GET, [$driver->getEntityClass(), $id, $request]);
+        $adapter->setRequest($request);
+        $entity = $this->invokeServiceMethod($driver, self::_GET, [$driver->getEntityClass(), $id, $adapter->getRequest()]);
         $adapter->setObject($entity);
         $this->checkEntityExists($driver, $adapter);
         $this->denyAccessUnlessGranted(self::_DELETE, $this->getSecurityTicket($driver, $adapter->getData()));
@@ -235,10 +242,10 @@ class EntityController extends PrototypeController {
                 ->getForm();
 
 
-        $form->handleRequest($request);
+        $form->handleRequest($adapter->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $result = $this->invokeServiceMethod($driver, self::_DELETE, [$entity,$request]);
+            $result = $this->invokeServiceMethod($driver, self::_DELETE, [$entity,$adapter->getRequest()]);
             $view = $this->redirectView($this->getUrlToRedirect($driver, $adapter->getRedirectionData($result)), 301);
             return $this->handleView($view);
         }
@@ -257,7 +264,7 @@ class EntityController extends PrototypeController {
                 ->setTemplateData($adapter->getTemplateData([
                             'driver' => $driver,
                             'form' => $form->createView(),
-                            'is_xml_http_request' => $request->isXmlHttpRequest(),
+                            'is_xml_http_request' => $adapter->getRequest()->isXmlHttpRequest(),
                             'is_sub_request' => (boolean) $this->requestStack->getParentRequest()
                 ]))
                 ->setTemplate($driver->getTemplate());
