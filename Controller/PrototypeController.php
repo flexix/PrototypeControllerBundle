@@ -180,8 +180,8 @@ class PrototypeController extends FOSRestController {
 
 
         $urlParameters = [self::MODULE => $driver->getModule(), self::ALIAS => $driver->getAlias()];
-        $redirectionParameters = $this->getRedirectionRouteParameters($driver, $data);
-        $parameters = array_merge($urlParameters, $redirectionParameters);
+       // $redirectionParameters = $this->getRedirectionRouteParameters($driver, $data);
+        $parameters = array_merge($urlParameters, $data);
 
         return $this->generateUrl($driver->getRedirectionRoute(), $parameters);
     }
