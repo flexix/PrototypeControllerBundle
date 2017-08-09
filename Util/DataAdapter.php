@@ -8,6 +8,7 @@ class DataAdapter implements DataAdapterInterface {
 
     protected $object;
     protected $driver;
+    protected $request;
     
     
    
