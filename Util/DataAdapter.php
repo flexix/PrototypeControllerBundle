@@ -35,6 +35,11 @@ class DataAdapter implements DataAdapterInterface {
 
         $this->object = $object;
     }
+    
+    public function getObject() {
+      
+        return $this->object;
+    }
 
     public function getData() {
       
