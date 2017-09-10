@@ -4,10 +4,4 @@ tabs:
     methods:  [GET, POST]
     options:
         expose: true
-        
-get_file:
-    path: "{module}/{alias}/get-file/{name}"
-    defaults: { _controller: "flexix_prototype_controller.extra_controller:getFileAction","action": "get_file", format: ~,name: null, module: null }
-    methods:  [GET, POST]
-    options:
-        expose: true        
+      

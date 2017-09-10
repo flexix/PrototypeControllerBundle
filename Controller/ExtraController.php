@@ -39,22 +39,7 @@ class ExtraController extends PrototypeController {
     }
     
     
-    
-    
-    public function getFileAction(Request $request, $action, $module, $alias, $name)
-    {
-        $driver = $this->getDriver($action, $module, $alias, $name);
-        $this->isActionAllowed($driver, $request);
-        $adapter = $this->getAdapter($driver);
-        $adapter->setRequest($request);
-        $repository = $this->getDoctrine()->getRepository('AppBundle\Entity\File');
-        $downloadHandler = $this->get('vich_uploader.download_handler');
-        $entity = $repository->findOneByName($name);
-        $adapter->setObject($entity);
-        //$this->checkEntityExists($driver, $adapter);
-        $this->denyAccessUnlessGranted(self::_GET, $this->getSecurityTicket($driver, $adapter->getData()));
-        return $downloadHandler->downloadObject($entity, $fileField = 'file', $objectClass = null, sprintf("%s.%s",$entity->getFileName(),$entity->getExtension()));
-    }        
+          
 
    
 }
