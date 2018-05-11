@@ -162,7 +162,7 @@ class PrototypeController extends FOSRestController {
     protected function getRedirectionRouteParameters($driver, $data) {
 
         $definedParameters = $driver->getRedirectionRouteParameters();
-        $resultParameters = [];
+      /*  $resultParameters = [];
         if ($definedParameters) {
             foreach ($definedParameters as $parameter) {
                 if (array_key_exists($parameter, $data)) {
@@ -173,16 +173,15 @@ class PrototypeController extends FOSRestController {
             }
         }
 
-        return $resultParameters;
+        return $resultParameters;*/
+        return $definedParameters;
     }
 
     protected function getUrlToRedirect($driver, $data) {
 
-
-        $urlParameters = [self::MODULE => $driver->getModule(), self::ALIAS => $driver->getAlias()];
-       // $redirectionParameters = $this->getRedirectionRouteParameters($driver, $data);
-        $parameters = array_merge($urlParameters, $data);
-
+       $urlParameters = [self::MODULE => $driver->getModule(), self::ALIAS => $driver->getAlias()];
+        $redirectionParameters = $this->getRedirectionRouteParameters($driver, $data);
+        $parameters = array_merge($urlParameters, $data,$redirectionParameters);
         return $this->generateUrl($driver->getRedirectionRoute(), $parameters);
     }
 
