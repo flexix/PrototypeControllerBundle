@@ -9,57 +9,56 @@ class DataAdapter implements DataAdapterInterface {
     protected $object;
     protected $driver;
     protected $request;
-    
-    
-   
-    public function setDriver($driver)
-    {
-        $this->driver=$driver;
-    } 
-    
-    
-    
-    public function setRequest($request)
-    {
-        $this->request=$request;
+    protected $form;
+
+    public function setDriver($driver) {
+        $this->driver = $driver;
     }
-    
-    
-    
-    public function getRequest()
-    {
-       return $this->request;
+
+    public function setRequest($request) {
+        $this->request = $request;
     }
-    
+
+    public function getRequest() {
+        return $this->request;
+    }
+
     public function setObject($object) {
 
         $this->object = $object;
     }
-    
+
     public function getObject() {
-      
+
         return $this->object;
     }
 
     public function getData() {
-      
+
         return $this->object;
+    }
+
+    public function setForm($form) {
+
+        $this->form = $form;
+    }
+
+    public function getForm() {
+        return $this->form;
     }
 
     public function getTemplateData($templateData) {
         return $templateData;
     }
-    
+
     public function getRedirectionData($redirectionData) {
-        
-        return  ["id",$this->object->getId()];
+
+        return ["id", $this->object->getId()];
     }
-    
-    
-    public function getFormActionParameters($parameters)
-    {
-        
+
+    public function getFormActionParameters($parameters) {
+
         return $parameters;
-    } 
+    }
 
 }
