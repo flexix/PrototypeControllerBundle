@@ -51,6 +51,7 @@ class EntityController extends PrototypeController {
         if ($formTypeClass) {
 
             $form = $this->createForm($this->getFormTypeClass($driver), [], ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver,[],$adapter)]);
+            $adapter->setForm($form);
             $form->handleRequest($adapter->getRequest());
         }
   
@@ -80,6 +81,7 @@ class EntityController extends PrototypeController {
         $adapter->setRequest($request);
         $this->denyAccessUnlessGranted(self::_LIST, $this->getSecurityTicket($driver, $adapter->getData()));
         $form = $this->createForm($this->getFormTypeClass($driver), [], ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver,[],$adapter)]);
+        $adapter->setForm($form);
         $result = $this->invokeServiceMethod($driver, self::_LIST, [$adapter->getObject(), $adapter->getRequest()], true);
         $form->handleRequest($adapter->getRequest());
         $view = $this->view($adapter->getData(), 200)
@@ -106,6 +108,7 @@ class EntityController extends PrototypeController {
         $adapter->setObject($entity);
         $this->denyAccessUnlessGranted(self::_NEW, $this->getSecurityTicket($driver, $adapter->getData()));
         $form = $this->createForm($this->getFormTypeClass($driver), $adapter->getObject(), ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver,[],$adapter)]);
+        $adapter->setForm($form);
         $form->handleRequest($adapter->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -185,6 +188,7 @@ class EntityController extends PrototypeController {
         $this->denyAccessUnlessGranted(self::_UPDATE, $this->getSecurityTicket($driver, $adapter->getData()));
 
         $form = $this->createForm($this->getFormTypeClass($driver), $adapter->getObject(), ['method' => $this->getFormMethod($driver), 'action' => $this->getFormActionUrl($driver, ['id' => $adapter->getData()->getId()],$adapter)]);
+        $adapter->setForm($form);
         $form->handleRequest($adapter->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -241,6 +245,7 @@ class EntityController extends PrototypeController {
                 ->setMethod('DELETE')
                 ->getForm();
 
+        $adapter->setForm($form);
 
         $form->handleRequest($adapter->getRequest());
         if ($form->isSubmitted() && $form->isValid()) {
